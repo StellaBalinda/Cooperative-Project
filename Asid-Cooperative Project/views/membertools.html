@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<!-- Copyright (c) 2016, Mbishinzemungu Tuyisenge Stella. All rights reserved. -->
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>SMART-COOPERATIVE|MEMBER-TOOLS</title>
+		<link href="../font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" >
+		<link href="../fonts/glyphicons-halflings-regular.woff" rel="stylesheet" >
+		<link href="../css/bootstrap.min.css" rel="stylesheet">
+		<link href="../css/bootstrap-datepicker3.min.css"  rel="stylesheet"/>
+		<link href="../css/AdminLTE.css" rel="stylesheet" >
+		<link href="../css/asid.css" rel="stylesheet">
+		<link href="../css/user.css" rel="stylesheet">
+		<link href="../css/sweetalert.css" rel="stylesheet">
+	</head>
+
+	<body class="bg" ng-app="myAsid" ng-controller="ctr_members" ng-init="startmembertools('btnuploader','<?php echo $username;?>','uploadbtn', 'loadingxslfile')">
+		<div class="wrapper">
+			<?php  include("header.html"); ?>
+
+			<aside class="main-sidebar" >
+				<section class="sidebar">
+					<div class="">
+						<div id="sidenav1">
+							<div class="collapse navbar-collapse" id="sideNavbar">
+								<div class="panel-group" id="accordion">
+
+									<div class="panel panel-default">
+										<div class="panel-heading">
+											<h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion" href="#collapseOne"><span class="glyphicon glyphicon-book"> </span>Member Tools<span class="caret"></span></a></h4>
+										</div>
+										<!-- Note: By adding "in" after "collapse", it starts with that particular panel open by default; remove if you want them all collapsed by default -->
+										<div id="collapseOne" class="panel-collapse collapse in">
+											<ul class="list-group">
+												<li id="members_link_id">
+													<a href=""><span class="fa fa-group"></span>&nbsp;Members</a>
+												</li>
+												<li id="admin_link_id">
+													<a href=""><span class="glyphicon glyphicon-user"></span>Admins</a>
+												</li>
+											</ul>
+										</div>
+									</div>
+									<div class="panel panel-default">
+										<div class="panel-heading">
+											<h4 class="panel-title"><a href="/admin/communication"><span class="glyphicon glyphicon-cog"> </span>Communication<span class="caret"></span></a></h4>
+										</div>
+									</div>
+									
+									<div class="panel panel-default">
+										<div class="panel-heading">
+											<h4 class="panel-title"><a href="/admin/finance"><span class="fa fa-line-chart"></span> Finance<span class="caret"></span></a></h4>
+										</div>
+									</div>
+									<div class="panel panel-default">
+										<div class="panel-heading">
+											<h4 class="panel-title"><a href="/admin/news"><span class="glyphicon glyphicon-calendar"> </span>Updates<span class="caret"></span></a></h4>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</section>
+			</aside>
+
+			<!-- Content Wrapper. Contains page content -->
+			<div class="content-wrapper">
+				<div class="container-fluid englobe" id="member_content">
+					<div class="row" >
+						<div class="col-xs-12 col-sm-12 col-md-12 ">
+							<div class="row" >
+
+								<!--============================ display staffs =================================-->
+
+								<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+									<div class="allstaff" >
+										<div class="searching">
+											<div class="col-md-12">
+												<button type="button" ng-click="members()" class="btn btn-primary btn-sm pull-right" >
+													Refresh
+												</button>
+												<span class="pull-right" id="refresh_memebers" style="visibility: hidden;"> <img src="../images/spinner.gif" width="30" height="30">&nbsp;&nbsp; </span>
+												<div class="pull-right" style="width: 100px;" >
+													<input type="number" min="1" ng-model="pagerecord" class="form-control input-sm">
+												</div>
+												<div class="input-group" style="width:200px">
+													<input type="text" ng-model="searchMember" class="form-control input-sm" placeholder="Search">
+													<span class="input-group-btn">
+														<button class="browse btn btn-sm" type="button">
+															<i class="fa fa-search"></i>
+														</button> </span>
+												</div>
+
+											</div>
+										</div>
+
+										<div class="col-md-12">		
+											 <div class="col-md-12">		
+											 <button type="button" class="btn btn-success pull-left" style="margin-left: -4px;"><i class="fa fa-male"></i> Males <span class="badge">{{countMale}}</span></button>
+										
+											<button type="button" class="btn btn-success pull-right" style="margin-right: -4px;"><i class="fa fa-female"></i> Females <span class="badge">{{countFemale}}</span></button>										
+											</div>
+										</div>
+
+										<div class="tata">
+											<table class="table table-striped">
+												<thead>
+													<th>Name</th>
+													<th>RegN0</th>
+													<th>Member Since</th>
+													<th>Action</th>
+													<th>Status</th>
+												</thead>
+												<tbody>
+													<tr style="cursor: pointer;" dir-paginate="member in members_list|filter: searchMember |itemsPerPage:pagerecord" pagination-id="members_page">
+														<td ng-click="profile(member)">{{member.fname}} {{member.lname}}</td>
+														<td ng-click="profile(member)">{{member.id_modified}}</td>
+														<td ng-click="profile(member)">{{member.admitted_year}}</td>
+														<td><a href="" class="pull-left"><i ng-click="editMember(member)" class="fa fa-pencil fafa"></i></a></td>
+														<td ng-click="editStatusOfMember(member.status,member.id)"><span class="label " ng-class="(member.status==='0' ? 'label-danger' : 'label-primary')">{{member.status_name}}</span></td>
+														<!-- <a href="" class="pull-right"><i ng-click="deleteuser(user.id)" class="fa fa-trash fafa1"></i>&nbsp; &nbsp; &nbsp; </a> -->
+													</tr>
+												</tbody>
+											</table>
+											<div class="btn-group pull-left statSub" style="width: 100%">
+												<dir-pagination-controls pagination-id="members_page"></dir-pagination-controls>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<!--============================ displaying profile =================================-->
+								<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 ">
+									<div class="details">
+										<div class="user-header head2">
+											<div class="name">
+												<img src="../{{details_profile}}" class="img-circle" alt="Picture" width="100" height="80">
+											</div>
+											<div class="titles">
+												<p>
+													{{details_fname}} {{details_lname}}
+													<br />
+													<small style="font-size: 13px;">Member since: <span style="font-size: 12px;">{{details_admitted}}</span> </small>
+												</p>
+											</div>
+										</div>
+										<div class="infos">
+											<table class="table table-striped">
+												<tr>
+													<td><i class="glyphicon glyphicon-user"></i> First Name</td>
+													<td class="text-right"><b>{{details_fname}}</b></td>
+												</tr>
+												<tr>
+													<td><i class="glyphicon glyphicon-user"></i> Last Name</td>
+													<td class="text-right"><b>{{details_lname}}</b></td>
+												</tr>
+												<tr>
+													<td><i class="fa fa-intersex"></i>&nbsp;&nbsp;&nbsp;&nbsp;  Gender</td>
+													<td class="text-right"><b>{{details_sex}}</b></td>
+												</tr>
+												<tr>
+													<td><i class="fa fa-birthday-cake"></i>&nbsp;&nbsp;&nbsp; Birthday</td>
+													<td class="text-right"><b>{{details_birthday}}</b></td>
+												</tr>
+												<tr>
+													<td><i class="fa fa-phone-square"></i>&nbsp;&nbsp;&nbsp;&nbsp; Phone</td>
+													<td class="text-right"><b>{{details_contact}}</b></td>
+												</tr>
+
+												<tr>
+													<td><i class="fa fa-barcode"></i>&nbsp;&nbsp;&nbsp; ID</td>
+													<td class="text-right"><b>{{details_nationalid}}</b></td>
+												</tr>
+												<tr>
+													<td><i class="fa fa-map-marker"></i>&nbsp;&nbsp;&nbsp;&nbsp;  Location</td>
+													<td class="text-right"><b>{{details_postaddress}}</b></td>
+												</tr>
+
+											</table>
+										</div>
+									</div>
+
+								</div><!-- col -->
+
+								<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+									<div class="newstaff">
+										<div class="head1">
+											<span><b>Add a new Member</b></span>
+										</div>
+										<div class="body1">
+											<form id="form_addnewmember">
+												<input type="text" ng-model="member_id" id="member_id" style="display: none;"/>
+
+												<div class="form-group">
+													<input type="text" class="form-control" autocomplete="off" ng-model="f_name" id="f_name" placeholder="FirstName eg John">
+												</div>
+												<div class="form-group">
+													<input type="text" class="form-control" autocomplete="off" ng-model="l_name" id="l_name" placeholder="LastName eg Manzi">
+												</div>
+												<div class="form-group">
+													<span class="radio-inline">
+														<input type="radio" name="optradio" ng-click="toggleSex('male')" ng-model="male"  id="male" value="male">
+														Male </span>
+													<span class="radio-inline">
+														<input type="radio" name="optradio" ng-click="toggleSex('female')"  id="female" ng-model="female"  value="female">
+														Female </span>
+												</div>
+												<div class="form-group">
+													<div id="datepicker1" class="input-group date" data-provide="datepicker" data-date-format="yyyy-mm-dd" >
+														<input  class="form-control" placeholder="Birth date" type="date" ng-model="birthday"  id="birthday"/>
+														<span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+													</div>
+												</div>
+												<div class="form-group">
+													<input type="text" maxlength="10" class="form-control" name="Name" autocomplete="off" ng-model="phone" id="phone" placeholder="Contact eg 0784566351">
+												</div>
+
+												<div class="form-group">
+													<span style="color:red;display:none" id="displayerroemail">Incorrect Email</span>
+													<input type="text" class="form-control" name="Name" ng-model="email" id="email" placeholder="Email" ng-blur="checkemail('email')">
+												</div>
+
+												<div class="form-group">
+													<input type="text" class="form-control" name="Name" autocomplete="off" ng-model="location" id="location" placeholder="Post Address Eg: Kimironko">
+												</div>
+												<div class="form-group">
+													<input type="text" class="form-control" name="Name" ng-model="ID" autocomplete="off" id="ID" placeholder="National ID ">
+												</div>
+												<div class="form-group clearfix">
+													<div class="input-group date" data-provide="datepicker" data-date-format="yyyy-mm-dd" >
+														<input type="text" class="form-control" ng-model="admitted_year" id="admitted_year" placeholder="Admitted on" >
+														<span class="input-group-addon"> <i class="glyphicon glyphicon-th"></i></span>
+													</div>
+												</div>
+
+												<div class="form-group">
+													<input type="text" class="form-control" autocomplete="off" ng-model="username" id="username" placeholder="Enter username">
+												</div>
+
+												<div class="form-group">
+													<input type="password" class="form-control" autocomplete="off" ng-model="pswd" id="pswd" placeholder="Enter password">
+												</div>
+
+												<div class="alert alert-danger col-lg-12 col-md-12 col-sm-12 col-xs-12" id="isa_error_add_member" style="text-align:left;display:none">
+													<strong> <i class="fa fa-times-circle"></i></strong><span id="isa_error_message_add_member"></span>
+												</div>
+												<div class="alert alert-success col-lg-12 col-md-12 col-sm-12 col-xs-12" id="isa_success_add_member" style="text-align:left;display:none">
+													<span id="isa_success_message_add_member"><img src="../images/spinner.gif" width="20" height="20"> Please wait...</span>
+												</div>
+												<div class="thebottom" ng-click="addMember()" id="add_member" style="display: block;">
+													<a href=""><span><i class="fa fa-user-plus"></i> Add Member <span id="img_succes_loading" style="visibility: hidden;"><img src="../images/spinner.gif" width="20" height="20"/></span></span></a>
+												</div>
+
+												<div class="thebottom" ng-click="editMemberFinal(member_id,f_name,l_name,birthday,phone,email,location,ID,payment,admitted_year,username,pswd)" id="edit_member" hidden>
+													<a href=""><span><i class="fa fa-user-plus"></i> Edit Member</span></a>
+												</div>
+											</form>
+										</div>
+									</div>
+
+								</div>
+
+								<div class="row">
+									<div class="col-md-2">
+										<a href="/members/list/export" target="_blank">
+										<button type="button" class="btn btn-success btn-sm" style="padding: 10px; margin-left: 10px;">
+											<i class="fa fa-bar-chart"></i> &nbsp;Export Spreadsheet
+										</button> </a>
+									</div>
+									<div class="col-md-3">
+										<button class="btn btn-sm" id="uploadbtn" style="color:#fff;border-radius:0px;background: #119fbd" ng-click="uploadexcel('uploadbtn', 'loadingxslfile')">
+											<i class="fa fa-paperclip" aria-hidden="true"></i> IMPORT EXCEL
+										</button>
+										<button class="btn btn-sm" style="color:#fff;border-radius:0px;background: #1d3944" ng-click="save_excel(spreadsheet, context)">
+											<i class="fa fa-floppy-o " aria-hidden="true"></i> SAVE
+										</button>
+										<span id="loadingxslfile" style="position:absolute;margin-left: 8px;padding-top: 8px;visibility:hidden">{{import_message}}</span>
+									</div>
+
+								</div>
+
+								<div class="row">
+									<div class="row">
+										<div class="col-md-12" id="twobtngroup" style="margin-top: 16px;">
+
+										</div>
+									</div>
+									<div class="row">
+										&nbsp;
+									</div>
+									<div class="row">
+										<div class="col-md-12">
+											<ul class="nav nav-pills">
+												<li ng-repeat="she_li in spreadsheets" ng-class="{'active': she_li.sheet === '1'}">
+													<a data-toggle="pill" href="#sheet{{she_li.sheet}}">{{she_li.sheet}}</a>
+												</li>
+											</ul>
+											<div class="tab-content">
+												<div ng-repeat="she_table in spreadsheets" id="sheet{{she_table.sheet}}" ng-class="{'active': she_table.sheet === '1'}" class="tab-pane fade in ">
+													<div style="min-width:500px;overflow-x: auto;">
+														<table  class="table no-margin table-condensed table-hover table-bordered">
+															<thead>
+																<tr>
+																	<th style="width:50px">{{header_row[0]}}</th>
+																	<th>{{header_row[1]}}</th>
+																	<th>{{header_row[2]}}</th>
+																	<th>{{header_row[3]}}</th>
+																	<th>{{header_row[4]}}</th>
+																	<th>{{header_row[5]}}</th>
+																	<th>{{header_row[6]}}</th>
+																	<th>{{header_row[7]}}</th>
+
+																</tr>
+															</thead>
+															<tbody style="font-size:80%">
+																<tr ng-repeat="row in she_table.rows" ng-if="$index > 0">
+																	<td style="width:50px">
+																	<input type="text" ng-model="row[0]" style="border:0px;width:50px" disabled >
+																	</td>
+																	<td>
+																	<input type="text" ng-model="row[1]" style="border:0px;width:250px">
+																	</td>
+																	<td>
+																	<input type="text" ng-model="row[2]" style="border:0px">
+																	</td>
+																	<td>
+																	<input type="text" ng-model="row[3]" style="border:0px">
+																	</td>
+																	<td>
+																	<input type="text" ng-model="row[4]" style="border:0px">
+																	</td>
+																	<td>
+																	<input type="text" ng-model="row[5]" style="border:0px">
+																	</td>
+																	<td>
+																	<input type="text" ng-model="row[6]" style="border:0px">
+																	</td>
+																	<td>
+																	<input type="text" ng-model="row[7]" style="border:0px">
+																	</td>
+
+																</tr>
+															</tbody>
+														</table>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+
+								</div>
+								<!-- end of the third row -->
+							</div>
+						</div>
+					</div><!-- end of the main row class that englobe all content -->
+				</div><!-- /.container-fluid -->
+
+				<div class="container-fluid englobe" id="admin_content" hidden>
+					<div class="row">
+						<div class="col-md-12 statSub" >
+							<button type="button" class="btn btn-default bg-green" data-toggle="modal" data-target="#add_admin_modal">
+								Add Administrator
+							</button>
+							<button type="button" ng-click="adminsCoop()" class="btn btn-primary btn-sm pull-right" >
+								Refresh
+							</button>
+							<span class="pull-right" id="refresh_admins" style="visibility: hidden;"> <img src="../images/spinner.gif" width="30" height="30">&nbsp;&nbsp; </span>
+							<div class="input-group pull-right" style="width:250px;margin-left: 6px;margin-right: 6px">
+								<input type="text" ng-model="search_adminCoop" class="form-control input-sm" placeholder="Search">
+								<span class="input-group-btn">
+									<button class="browse btn btn-sm" type="button">
+										<i class="fa fa-search"></i>
+									</button> </span>
+							</div>
+							<div class="form-group pull-right"  >
+								<input type="number" min="1" ng-model="pagerecordadminscoop" class="form-control input-sm">
+							</div>
+						</div>
+						<div class="col-md-12 statSub" >
+							<table class="table table-striped">
+								<thead>
+									<th>ID</th>
+									<th>Names</th>
+									<th>Phone</th>
+									<th>Email</th>
+									<th>Status</th>
+									<th>Privilege</th>
+									<th>Last Login</th>
+									<th>Action</th>
+									<!-- <th align="right">Action</th> -->
+								</thead>
+								<tbody>
+									<tr style="cursor: pointer;" dir-paginate="adminsCooperative in adminsCooperative_list|filter: search_adminCoop |itemsPerPage:pagerecordadminscoop" pagination-id="admincoop_page">
+										<td>{{adminsCooperative.id_modified}} </td>
+										<td>{{adminsCooperative.fname}} {{adminsCooperative.lname}}</td>
+										<td>{{adminsCooperative.phone}}</td>
+										<td>{{adminsCooperative.email}}</td>
+										<td>{{adminsCooperative.status_name}}</td>
+										<td><span class="pull-right" style="font-size:16px;cursor:pointer;absolute: absolute; top: 0px;"><i ng-click="editPrivilege(adminsCooperative.id,privileg)" class="fa fa-floppy-o"></i></span>
+										<select class="form-control input-sm" style="width: 85%" ng-model="privileg" >
+											<option value="">--Select--</option>
+											<option value="2" ng-selected="adminsCooperative.privilege =='2'"> Super Admin</option>
+											<option value="1" ng-selected="adminsCooperative.privilege =='1'"> Manager</option>
+										</select></td>
+										<td>{{adminsCooperative.lastlogin}}</td>
+										<td>
+										<div class="btn-group" id="status" data-toggle="buttons">
+											<label class="btn btn-default btn-on btn-xs" ng-class='{
+											"active": adminsCooperative.status == "1"}' ng-click="editStatus(adminsCooperative.status,adminsCooperative.id)" >
+												<input type="radio" value="1" name="multifeatured_module[module_id][status]" checked="checked" >
+												ON</label>
+											<label class="btn btn-default btn-off btn-xs" ng-class='{
+											"active": adminsCooperative.status == "0"}' ng-click="editStatus(adminsCooperative.status,adminsCooperative.id)">
+												<input type="radio" value="0" name="multifeatured_module[module_id][status]" >
+												OFF</label>
+										</div></td>
+									</tr>
+								</tbody>
+							</table>
+
+							<div class="btn-group pull-right" style="">
+								<dir-pagination-controls pagination-id="admincoop_page"></dir-pagination-controls>
+							</div>
+						</div>
+					</div>
+					<!-- Modal -->
+					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+						<div class="modal fade" id="add_admin_modal" role="dialog">
+							<div class="modal-dialog modal-lg">
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal">
+											&times;
+										</button>
+										<h4 class="modal-title">Add an Administrator</h4>
+									</div>
+
+									<div class="modal-body">
+										<form id="add_admin_coop_form">
+											<input type="text" style="display:none" ng-model="admin_hidden_input_id" id="admin_hidden_input_id">
+											<div class="col-md-4">
+												<div class="form-group">
+													<input type="text" class="form-control" autocomplete="off" ng-model="admin_fname" id="admin_fname" placeholder="FirstName eg John">
+												</div>
+												<div class="form-group">
+													<input type="text" class="form-control" autocomplete="off" ng-model="admin_lname" id="admin_lname" placeholder="LastName eg Manzi">
+												</div>
+												<div class="form-group">
+													<span class="radio-inline">
+														<input type="radio" name="optradio" ng-click="toggleSex('male')" ng-model="admin_male"  id="admin_male" value="male">
+														Male </span>
+													<span class="radio-inline">
+														<input type="radio" name="optradio" ng-click="toggleSex('female')"  id="admin_female" ng-model="admin_female"  value="female">
+														Female </span>
+												</div>
+												<div class="form-group">
+													<div id="datepicker1" class="input-group date" data-provide="datepicker" data-date-format="yyyy-mm-dd" >
+														<input  class="form-control" placeholder="Birth date" type="date" ng-model="admin_birthday"  id="admin_birthday"/>
+														<span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+													</div>
+												</div>
+											</div>
+											<div class="col-md-4">
+												<div class="form-group">
+													<input type="text" maxlength="10" class="form-control" ng-model="admin_phone" id="admin_phone" placeholder="Contact eg 0784566351">
+												</div>
+												<div class="form-group">
+													<input type="text" class="form-control" ng-model="admin_ID" id="admin_ID" placeholder="National ID ">
+												</div>
+												<div class="form-group">
+													<span style="color:red;display:none" id="displayerroemail">Incorrect Email</span>
+													<input type="text" class="form-control" ng-model="admin_email" id="admin_email" placeholder="Email" ng-blur="checkemail('email')">
+												</div>
+
+												<div class="form-group">
+													<input type="text" class="form-control" ng-model="admin_address" id="admin_address" placeholder="Post Address Eg: Kimironko">
+												</div>
+											</div>
+											<div class="col-md-4">
+												<div class="form-group">
+													<select class="form-control" ng-modal="admin_position" id="admin_position">
+														<option value="1">Manager</option>
+														<option value="2">Super Admin</option>
+													</select>
+												</div>
+												<div class="form-group">
+													<input type="text" class="form-control" ng-model="admin_username" id="admin_username" placeholder="Enter username">
+												</div>
+
+												<div class="form-group">
+													<input type="password" class="form-control" ng-model="admin_pswd" id="admin_pswd" placeholder="Enter password">
+												</div>
+
+											</div>
+
+										</form>
+									</div>
+									<div class="modal-footer">
+										<div class="alert alert-danger col-lg-offset-2 col-md-offset-2 col-sm-offset-2 col-lg-6 col-md-6 col-sm-6 col-xs-12" id="isa_error_add_admin" style="text-align:left;display:none;">
+											<strong> <i class="fa fa-times-circle"></i></strong><span id="isa_error_message_add_admin"></span>
+										</div>
+										<div class="alert alert-success col-lg-offset-2 col-md-offset-2 col-sm-offset-2 col-lg-6 col-md-6 col-sm-6 col-xs-12" id="isa_success_add_admin" style="text-align:left;display:none;">
+											<span id="isa_success_message_add_admin"><img src="../images/spinner.gif" width="20" height="20"> Please wait...</span>
+										</div>
+										<br />
+										<div class="form-group" ng-click="addAdminCoop()" id="addadmin_coop">
+											<button class="btn btn-primary text-center">
+												Add Admin
+											</button><span id="img_succes_loading" style="visibility: hidden;"><img src="../images/spinner.gif" width="20" height="20"/></span>
+										</div>
+										<div class="form-group pull-left" ng-click="editAdminCoop(admin_hidden_input_id,admin_fname,admin_lname,admin_birthday,admin_phone,admin_ID,admin_email,admin_location,admin_position,admin_username,admin_pswd)" id="editadmin_coop" style="display: none;">
+											<button class="btn btn-primary text-center">
+												Edit Admin
+											</button><span id="img_succes_loading_edit" style="visibility: hidden;"><img src="../images/spinner.gif" width="20" height="20"/></span>
+										</div>
+									</div>
+
+								</div>
+								<!-- /* modal content -->
+							</div>
+							<!-- /* modal dialog -->
+						</div>
+						<!-- /* modal -->
+					</div>
+				</div>
+
+			</div>
+
+		</div>
+		</div><!-- /.content-wrapper -->
+
+		<script src="../js/jquery.js"></script>
+		<script src="../js/bootstrap.js"></script>
+		<script src="../js/bootstrap-datepicker.min.js"></script>
+		<script src="../js/angular.min.js"></script>
+		<script src="../js/application.js"></script>
+		<script src="../js/services.js"></script>
+		<script src="../js/dirPagination.js"></script>
+		<script src="../js/sweetalert.min.js"></script>
+		<script src="../js/jquery.toaster.js"></script>
+		<script src="../js/SimpleAjaxUploader.js"></script>
+		<script type="text/javascript">
+			$(document).on('click', '.dropdown-menu', function(e) {
+				if ($(this).hasClass('keep-open-on-click')) {
+					e.stopPropagation();
+				}
+			});
+		</script>
+
+		<script>
+			$(document).ready(function() {
+				$("#admin_link_id").click(function() {
+					$("#member_content").hide();
+					$("#admin_content").show();
+				});
+
+				$("#members_link_id").click(function() {
+					$("#member_content").show();
+					$("#admin_content").hide();
+				});
+			});
+		</script>
+
+	</body>
+</html>

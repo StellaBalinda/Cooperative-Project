@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<!-- Copyright (c) 2016, Mbishinzemungu Tuyisenge Stella. All rights reserved. -->
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>SMART-COOPERATIVE|COMMUNICATION</title>
+		<link href="../font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" >
+		<link href="../fonts/glyphicons-halflings-regular.woff" rel="stylesheet" >
+		<link href="../css/bootstrap.min.css" rel="stylesheet">
+		<link href="../css/bootstrap-datepicker3.min.css"  rel="stylesheet"/>
+		<link href="../css/AdminLTE.css" rel="stylesheet" >
+		<link href="../css/asid.css" rel="stylesheet">
+		<link href="../css/user.css" rel="stylesheet">
+		<link href="../css/sweetalert.css" rel="stylesheet">
+	</head>
+	<body class="bg" ng-app="myAsid" ng-controller="ctr_communication" ng-init="communicationCtr('btnuploader','<?php echo $username;?>')">
+		<div class="wrapper">
+			<?php  include("header.html"); ?>
+
+			<aside class="main-sidebar" >
+				<section class="sidebar">
+					<div class="">
+						<div id="sidenav1">
+							<div class="collapse navbar-collapse" id="sideNavbar">
+								<div class="panel-group" id="accordion">
+									<div class="panel panel-default">
+										<div class="panel-heading">
+											<h4 class="panel-title"><a href="/admin/member"><span class="glyphicon glyphicon-book"> </span>Member Tools<span class="caret"></span></a></h4>
+										</div>
+									</div>
+									<div class="panel panel-default">
+										<div class="panel-heading">
+											<h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo"><span class="glyphicon glyphicon-cog"> </span>Communication<span class="caret"></span></a></h4>
+										</div>
+										<div id="collapseTwo" class="panel-collapse collapse in">
+											<ul class="list-group">
+												<li id="network_link_id" class="navlink2">
+													<a href=""><span class="glyphicon glyphicon-link"></span>Network</a>
+												</li>
+												<li id="chat_link_id">
+													<a href=""><span class="glyphicon glyphicon-envelope"></span>Chat</a>
+												</li>											
+											</ul>
+										</div>
+									</div>
+									<div class="panel panel-default">
+										<div class="panel-heading">
+											<h4 class="panel-title"><a href="/admin/finance"><span class="fa fa-line-chart"></span> Finance<span class="caret"></span></a></h4>
+										</div>
+									</div>
+									<div class="panel panel-default">
+										<div class="panel-heading">
+											<h4 class="panel-title"><a href="/admin/news"><span class="glyphicon glyphicon-calendar"> </span>Updates<span class="caret"></span></a></h4>
+										</div>
+									</div>
+									
+								</div>
+							</div>
+						</div>
+					</div>
+				</section>
+			</aside>
+
+			<!-- Content Wrapper. Contains page content -->
+			<div class="content-wrapper">
+				<div class="container-fluid in englobe" id="network_content">
+					<div class="row" >
+						<div class="col-xs-12 col-sm-12 col-md-12">
+							<div class="row">
+								<!-- ===============================================  Available network  ==========================-->
+								<div class="col-md-12">
+									<button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#add_network_modal" style="margin: 5px;">
+										Add Network
+									</button>
+									<div class="row">
+										<div class="col-md-4" ng-repeat="net in networkings">
+											<div class="thumbnail">
+												<div class="caption">
+													<div class='col-lg-12'>
+														<span class="fa fa-group"></span>&nbsp;({{net.count}}) <span class="glyphicon glyphicon-certificate pull-right" ng-class="(net.status==='0' ? 'text-danger' : 'text-success')"></span>
+													</div>
+													<div class='col-lg-12 well well-add-card'>
+														<h4><b>Network:</b><span style="text-transform: lowercase;" class="text-primary">{{net.networkname}}</span></h4>
+													</div>
+													<div class='col-lg-12'>
+														<p class"text-muted">
+															<b>Created on:</b> {{net.creationdate}}
+														</p>
+													</div>
+													<button type="button" class="btn btn-primary btn-md btn-update btn-add-card btn-sm">
+														<span ng-if="net.status==='0'" ng-click="changeStatus('active',net.id)">Activate?</span><span ng-if="net.status==='1'" ng-click="changeStatus('desactive',net.id)">Desactivate?</span>
+													</button>
+													<small  style="position: absolute;bottom: 36px;right:36px"><b>By:</b>{{net.creatorfname}} {{net.creatorlname}}</small>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="container-fluid englobe" id="chat_content" hidden>
+					<div class="row" >
+
+						<div class="col-xs-8 col-sm-8 col-md-8">
+							<div class="box box-primary direct-chat direct-chat-primary">
+								<div class="box-header with-border">
+									<h3 class="box-title">Chat in <b ng-class="(networkstatus==='0' ? 'text-danger' : 'text-success')">{{networkname}}</b></h3>
+								</div>
+								<div class="box-body">
+									<div class="direct-chat-messages" style="height: 460px">
+										<div ng-repeat="chatMessaging in messagesin" class="direct-chat-msg"  ng-class="{'right':chatMessaging.author !=='<?php echo $username; ?>'}">
+											<div class="direct-chat-info clearfix">
+												<span class="direct-chat-name pull-left">{{chatMessaging.names}}</span>
+												<span class="direct-chat-timestamp pull-right">{{chatMessaging.messagedate}}</span>
+											</div>
+											<img class="direct-chat-img user-image" src="../{{chatMessaging.profiles}}" alt="User Image">
+											<div class="direct-chat-text">
+												{{chatMessaging.messages}}
+											</div>
+										</div>
+										<div ng-show="messagesin.length===0"><i><h3>Welcome abroad.</h3></i></div>
+									</div>
+								</div>
+								<div class="box-footer">
+									<div class="input-group">
+										<input type="text" ng-model="chatMessage" name="message" placeholder="Type Message ..." class="form-control">
+										<span class="input-group-btn">
+											<button id="sendMessage" type="button" ng-click="sendChat(chatMessage,networkcreatorid,'<?php echo $username; ?>',networkaudience)" class="btn btn-primary btn-flat">
+												Send
+											</button> </span>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-md-4">
+							<div class="col-md-12" style="padding: 0px">
+								<div class="box box-primary direct-chat direct-chat-primary " style=" overflow-y: auto; height:200px;">
+									<div class="box-header with-border">
+										<a  href="#networks"><b>Networks</b></a>
+										<div class="box-tools pull-right">
+											<span data-toggle="tooltip" title="3 New Messages" class="badge bg-blue-active">{{networkings.length}}</span>
+										</div>
+									</div>
+									<div class="col-md-12  chat-pane-open" style="background: #fff;padding-bottom: 8px" >
+										<br>
+										<div class="form-group" ng-repeat="neti in networkings">
+											<a href="" ng-click="selectNetwork(neti)"><span class="glyphicon glyphicon-link"></span> <b>Network : <span style="text-transform: lowercase;font-size: 90%"> {{neti.networkname}}</span> </b></a>
+											<span class="glyphicon glyphicon-certificate pull-right" ng-class="(neti.status==='0' ? 'text-danger' : 'text-success')"></span>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-12" style="padding: 0px">
+								<div class="box box-primary direct-chat direct-chat-primary " style=" overflow-y: auto; height:350px;">
+									<div class="box-header with-border">
+										<a  href="#"><b>Members in group <span ng-class="(networkstatus==='0' ? 'text-danger' : 'text-success')" style="font-size: 16px;">{{networkname}}</span></b></a>
+										<div class="box-tools pull-right">
+											<span data-toggle="tooltip" title="3 New Messages" class="badge bg-blue-active">{{members_network.length}}</span>
+										</div>
+									</div>
+									<div class="col-md-12  chat-pane-open" style="background: #fff;padding-bottom: 8px" >
+										<br>
+										<div ng-repeat="name_member in members_network">
+											<a href="" ><img class="user-image img-circle" src="../{{name_member.m_profiles}}" width="20" height="20" alt="User Image"><span style="text-transform: lowercase;font-size: 90%;margin-left:16px"><i>{{name_member.m_names}}</i></span> </a>
+										</div>
+										<div ng-show="members_network.length==0">
+											<i><h3>Click a network to see members</h3></i>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+
+				<div class="container-fluid englobe" id="calendar_content" hidden>
+					<div class="row" >
+						<div class="col-xs-12 col-sm-12 col-md-12"></div>
+					</div>
+				</div>
+
+				<div class="container">
+					<!-- Modal -->
+					<div class="modal fade" id="add_network_modal" role="dialog">
+						<div class="modal-dialog modal-lg">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal">
+										&times;
+									</button>
+									<h4 class="modal-title"><b> <span class="glyphicon glyphicon-link"></span> Network Name</b></h4>
+								</div>
+								<div class="modal-body" style="height: 520px">
+									<div class="col-md-12">
+										<div class="allstaff">
+											<br>
+											<div class="form-group col-md-4 no-padding">
+												<input type="text" class="form-control input-sm" ng-blur="errorNetworkBlur()" id="network"  placeholder="NetworkName  eg. Imihigo">
+											</div>
+											<div class="form-group col-md-4 no-padding" style="color:red;">
+												<h6 style="visibility: hidden" id="error_network_name">&nbsp;<i class="fa fa-exclamation-circle"></i><i>Please add network name of at least 5 charcter!</i></h6>
+											</div>
+											<div class=" pull-right">
+												<div class="col-md-12" style="margin-left:-25px">
+													<div class="form-group" style="width: 250px;">
+														<div class="input-group " >
+															<input type="text" ng-model="searchMember" class="form-control input-sm" placeholder="search member">
+															<span class="input-group-btn">
+																<button class="browse btn btn-sm" type="button">
+																	<i class="fa fa-search"></i>
+																</button> </span>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="col-md-12">
+												<div class="tata">
+													<table class="table table-striped">
+														<thead>
+															<th><i class="fa fa-hand-lizard-o"></i></th>
+															<th>Reg</th>
+															<th>Name</th>
+															<th>Email</th>
+														</thead>
+														<tbody>
+															<tr ng-repeat="member in members_list|filter: searchMember">
+																<td>
+																<input type="checkbox" id="memberCheked{{$index}}" ng-click="checkClickEvent('memberCheked'+$index,member.email)">
+																</td>
+																<td>{{member.id_modified}}</td>
+																<td>{{member.fname}} {{member.lname}}</td>
+																<td>{{member.email}}</td>
+															</tr>
+														</tbody>
+													</table>
+												</div>
+												<br>
+												<div class="alert alert-danger col-lg-12 col-md-12 col-sm-12 col-xs-12" id="isa_error_net" style="text-align:left;display:none">
+													<strong> <i class="fa fa-times-circle"></i></strong><span id="isa_error_message_add_net"></span>
+												</div>
+												<div class="alert alert-success col-lg-12 col-md-12 col-sm-12 col-xs-12" id="isa_success_net" style="text-align:left;display:none">
+													<span id="isa_success_message_net"></span>
+												</div>
+												<div class="thebottom col-md-4" ng-click="createNetwork()" >
+													<a href=""><span><i class="fa fa-plus-square-o"></i> Create </span></a>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="modal-footer">
+									<button type="button" class="btn btn-default" data-dismiss="modal">
+										Close
+									</button>
+								</div>
+							</div>
+
+						</div>
+					</div>
+
+				</div>
+
+			</div><!-- /.content-wrapper -->
+		</div>
+		<script src="../js/jquery.js"></script>
+		<script src="../js/bootstrap.js"></script>
+		<script src="../js/bootstrap-datepicker.min.js"></script>
+		<script src="../js/angular.min.js"></script>
+		<script src="../js/application.js"></script>
+		<script src="../js/services.js"></script>
+		<script src="../js/dirPagination.js"></script>
+		<script src="../js/sweetalert.min.js"></script>
+		<script src="../js/jquery.toaster.js"></script>
+		<script src="../js/SimpleAjaxUploader.js"></script>
+		<script type="text/javascript">
+			$(document).on('click', '.dropdown-menu', function(e) {
+				if ($(this).hasClass('keep-open-on-click')) {
+					e.stopPropagation();
+				}
+			});
+		</script>
+		<script type="text/javascript">
+			$(function() {
+				$('a[title]').tooltip();
+			});
+		</script>
+		<script>
+			$(document).ready(function() {
+				$("#network_link_id").click(function() {
+					$("#network_content").show();
+					$("#chat_content").hide();
+					$("#calendar_content").hide();
+				});
+
+			});
+
+			$(document).ready(function() {
+				$("#chat_link_id").click(function() {
+					$("#network_content").hide();
+					$("#chat_content").show();
+					$("#calendar_content").hide();
+
+				});
+			});
+
+			$(document).ready(function() {
+				$("#calendar_link_id").click(function() {
+					$("#chat_content").hide();
+					$("#calendar_content").show();
+					$("#network_content").hide();
+				});
+			});
+		</script>
+
+	</body>
+</html>

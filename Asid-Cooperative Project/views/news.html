@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<!-- Copyright (c) 2016, Mbishinzemungu Tuyisenge Stella. All rights reserved. -->
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>SMART-COOPERATIVE|NEWS</title>
+		<link href="../font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" >
+		<link href="../fonts/glyphicons-halflings-regular.woff" rel="stylesheet" >
+		<link href="../css/bootstrap.min.css" rel="stylesheet">
+		<link href="../css/bootstrap-datepicker3.min.css"  rel="stylesheet"/>
+		<link href="../css/AdminLTE.css" rel="stylesheet" >
+		<link href="../css/asid.css" rel="stylesheet">
+		<link href="../css/user.css" rel="stylesheet">
+		<link href="../css/news.css" rel="stylesheet">
+	</head>
+	<body class="bg" ng-app="myAsid" ng-controller="ctr_news" ng-init="startNews('btnuploader','<?php echo $username;?>')">
+		<div class="wrapper">
+			<?php  include("header.html"); ?>
+			<aside class="main-sidebar" >
+				<section class="sidebar">
+					<div class="">
+						<div id="sidenav1">
+							<div class="collapse navbar-collapse" id="sideNavbar">
+								<div class="panel-group" id="accordion">
+									<div class="panel panel-default">
+										<div class="panel-heading">
+											<h4 class="panel-title"><a href="/admin/member"><span class="glyphicon glyphicon-book"> </span>Member Tools<span class="caret"></span></a></h4>
+										</div>
+									</div>
+									<div class="panel panel-default">
+										<div class="panel-heading">
+											<h4 class="panel-title"><a href="/admin/communication"> <span class="glyphicon glyphicon-cog"> </span>Communication<span class="caret"></span></a></h4>
+										</div>
+									</div>
+									<div class="panel panel-default">
+										<div class="panel-heading">
+											<h4 class="panel-title"><a href="/admin/finance"><span class="fa fa-line-chart"></span> Finance<span class="caret"></span></a></h4>
+										</div>
+									</div>
+									<div class="panel panel-default">
+										<div class="panel-heading">
+											<h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion" href=""><span class="glyphicon glyphicon-calendar"> </span>Updates<span class="caret"></span></a></h4>
+										</div>
+										<div id="collapseThree" class="panel-collapse collapse in">
+											<ul class="list-group">
+												<li id="product_link_id">
+													<a href="" ><span class="glyphicon glyphicon-shopping-cart"></span>Add product</a>
+												</li>
+												<li id="news_link_id">
+													<a href="" ><span class="glyphicon glyphicon-file"></span>Add news</a>
+												</li>
+											</ul>
+										</div>
+									</div>
+									
+								</div>
+							</div>
+						</div>
+					</div>
+				</section>
+			</aside>
+
+			<!-- Content Wrapper. Contains page content -->
+			<div class="content-wrapper">
+				<div class="container-fluid englobe" id="updates_content" >
+					<div class="row">
+						<section style="background:#fff;" id="network_in_one">
+							<div class="container-fluid">
+								<div class="board">
+									<div class="board-inner" >
+										<ul class="nav nav-tabs bg-blue" id="myTab" >
+											<div class="liner"></div>
+											<li class="active">
+												<a href="#home" data-toggle="tab" title="welcome to our markets"> <span class="round-tabs three"> <i class="glyphicon glyphicon-home"></i> </span> </a>
+											</li>
+
+											<li>
+												<a href="#profile" data-toggle="tab" title="Add place"> <span class="round-tabs three"> <i class="glyphicon glyphicon-tower"></i> </span> </a>
+											</li>
+											<li>
+												<a href="#messages" data-toggle="tab" title="Add Product"> <span class="round-tabs three"> <i class="glyphicon glyphicon-shopping-cart"></i> </span> </a>
+											</li>
+
+											<li>
+												<a href="#settings" data-toggle="tab" title="Add Price "> <span class="round-tabs three"> <i class="glyphicon glyphicon-usd"></i> </span> </a>
+											</li>
+
+											<li>
+												<a href="#doner" data-toggle="tab" title="Thank you"> <span class="round-tabs three"> <i class="glyphicon glyphicon-ok"></i> </span> </a>
+											</li>
+
+										</ul>
+									</div>
+
+									<div class="tab-content" style="background: #fff;">
+										<div class="tab-pane fade in active" id="home">
+											<div class="row">
+												<div class="col-md-12">
+													<div class="box box-widget widget-user">
+														<div class="small-box bg-green">
+															<div class="inner">
+																<h3>6</h3>
+																<p>
+																	Market Places
+																</p>
+															</div>
+															<div class="icon">
+																<i class="fa fa-shopping-cart"></i>
+															</div>
+															<span href="#" class="small-box-footer"> <i class="fa fa-thumbs-o-up"></i> </span>
+														</div>
+														<div class="box-footer">
+															<div class="row">
+																<div class="col-sm-2 border-right">
+																	<div class="description-block">
+																		<h5 class="description-header">Kimironko</h5>
+																		<p>
+																			<span class="description-text"><b><i>1.banana:</i></b> 400 frw</span>
+																		</p>
+																		<p>
+																			<span class="description-text"><b><i>2.banana:</i></b> 400 frw</span>
+																		</p>
+																		<p>
+																			<span class="description-text"><b><i>3.banana:</i></b> 400 frw</span>
+																		</p>
+
+																	</div>
+																</div>
+																<div class="col-sm-2 border-right">
+																	<div class="description-block">
+																		<h5 class="description-header">Kimironko</h5>
+																		<p>
+																			<span class="description-text"><b><i>1.banana:</i></b> 400 frw</span>
+																		</p>
+																		<p>
+																			<span class="description-text"><b><i>2.banana:</i></b> 400 frw</span>
+																		</p>
+																		<p>
+																			<span class="description-text"><b><i>3.banana:</i></b> 400 frw</span>
+																		</p>
+
+																	</div>
+																</div>
+																<div class="col-sm-2 border-right">
+																	<div class="description-block">
+																		<h5 class="description-header">Kimironko</h5>
+																		<p>
+																			<span class="description-text"><b><i>1.banana:</i></b> 400 frw</span>
+																		</p>
+																		<p>
+																			<span class="description-text"><b><i>2.banana:</i></b> 400 frw</span>
+																		</p>
+																		<p>
+																			<span class="description-text"><b><i>3.banana:</i></b> 400 frw</span>
+																		</p>
+
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="tab-pane fade" id="profile">
+											<div class="row">
+												<div class="col-md-offset-1 col-md-4">
+													<div class="box box-primary">
+														<div class="box-header with-border">
+															<h3 class="box-title">Market Place</h3>
+															<div class="box-tools">
+																<div class="has-feedback">
+
+																</div>
+															</div>
+														</div>
+														<div class="box-body">
+															<form>
+																<div class="box-body">
+																	<div class="box-tools">
+																		<div class="form-group">
+																			<input type="text" class="form-control" placeholder="Place" ng-model="mp_place" id="mp_place">
+																		</div>																		
+																	</div>
+																	<div class="form-group">
+																		<div class="alert alert-danger col-lg-12 col-md-12 col-sm-12 col-xs-12" id="isa_error_place" style="text-align:left;display:none;">
+																			<strong> <i class="fa fa-times-circle"></i></strong><span id="isa_error_message_place"></span>
+																		</div>
+																		<div class="alert alert-success col-lg-12 col-md-12 col-sm-12 col-xs-12" id="isa_success_place" style="text-align:left;display:none;">
+																			<span id="isa_success_message_place"><img src="../images/spinner.gif" width="20" height="20"> Please wait...</span>
+																		</div>
+																	</div>
+
+																</div>
+																<div class="box-footer">
+																	<a href="#messages" data-toggle="tab">
+																	<button type="button" class="btn btn-primary" ng-click="placeNext()">
+																		NEXT
+																	</button></a>
+																</div>
+															</form>
+														</div>
+													</div>
+												</div>
+												<div class="col-md-offset-1 col-md-4">
+													<i><h1><i class="glyphicon glyphicon-tower"></i> ADD MARKET PLACE BEFORE PROCEDE.</h1></i>
+												</div>
+											</div>
+										</div>
+										<div class="tab-pane fade" id="messages">
+											<div class="col-md-offset-1 col-md-4">
+												<div class="box box-primary">
+													<div class="box-header with-border">
+														<h3 class="box-title">Product Name</h3>
+														<div class="box-tools">
+															<div class="has-feedback">
+
+															</div>
+														</div>
+													</div>
+													<div class="box-body">
+														<form>
+															<div class="box-body">
+																<div class="box-tools ">
+																	<div class="form-group">
+																		<input type="text" class="form-control" ng-model="mp_product" id="mp_product" placeholder="Product Name">
+																	</div>
+																</div>
+																<div class="form-group">
+																	<div class="alert alert-danger col-lg-12 col-md-12 col-sm-12 col-xs-12" id="isa_error_product" style="text-align:left;display:none;">
+																		<strong> <i class="fa fa-times-circle"></i></strong><span id="isa_error_message_product"></span>
+																	</div>
+																	<div class="alert alert-success col-lg-12 col-md-12 col-sm-12 col-xs-12" id="isa_success_product" style="text-align:left;display:none;">
+																		<span id="isa_success_message_product"><img src="../images/spinner.gif" width="20" height="20"> Please wait...</span>
+																	</div>
+																</div>
+															</div>
+															<div class="box-footer">
+																<a href="#settings" data-toggle="tab">
+																<button type="submit" class="btn btn-primary" ng-click="productNext()">
+																	NEXT
+																</button>
+																</a>
+															</div>
+														</form>
+													</div>
+												</div>
+											</div>
+											<div class="col-md-offset-1 col-md-4">
+												<div class="box box-primary">
+													<div class="box-header with-border">
+														<h3 class="box-title">Recent Added place</h3>
+														<h1>{{mp_place}}</h1>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="tab-pane fade" id="settings">
+											<div class="col-md-offset-1 col-md-4">
+												<div class="box box-primary">
+													<div class="box-header with-border">
+														<h3 class="box-title">Product Price</h3>
+														<div class="box-tools">
+															<div class="has-feedback"></div>
+														</div>
+													</div>
+													<div class="box-body">
+														<form>
+															<div class="box-body">
+																<div class="box-tools ">
+																	<div class="form-group">
+																		<input type="text" class="form-control" ng-model="mp_price" id="mp_price" placeholder="Product Price">
+																	</div>
+																</div>
+																<div class="form-group">
+																	<div class="alert alert-danger col-lg-12 col-md-12 col-sm-12 col-xs-12" id="isa_error_price" style="text-align:left;display:none;">
+																		<strong> <i class="fa fa-times-circle"></i></strong><span id="isa_error_message_price"></span>
+																	</div>
+																	<div class="alert alert-success col-lg-12 col-md-12 col-sm-12 col-xs-12" id="isa_success_price" style="text-align:left;display:none;">
+																		<span id="isa_success_message_price"><img src="../images/spinner.gif" width="20" height="20"> Please wait...</span>
+																	</div>
+																</div>
+															</div>
+															<div class="box-footer">
+																<a href="#doner" data-toggle="tab">
+																<button type="submit" class="btn btn-primary" ng-click="priceNext()">
+																	NEXT
+																</button>
+																</a>
+															</div>
+														</form>
+													</div>
+												</div>
+											</div>
+											<div class="col-md-offset-1 col-md-4">
+												<div class="box box-primary">
+													<div class="box-header with-border">
+														<h3 class="box-title">Recent product added</h3>
+														<h1>{{mp_product}}</h1>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="tab-pane fade" id="doner">
+											<div class="col-md-offset-1 col-md-4">
+												<div class="box box-primary">
+													<div class="box-header with-border">
+														<h3 class="box-title">Market Place</h3>
+														<div class="box-tools">
+															<div class="has-feedback"></div>
+														</div>
+													</div>
+													<div class="box-body">
+														<form>
+															<div class="box-body">
+																<table style="font-size: 16px">
+																	<tr>
+																		<td><b>PLACE</b></td>
+																		<td> &nbsp;:&nbsp; </td>
+																		<td> {{mp_place}}</td>
+																	</tr>
+																	<tr>
+																		<td><b>PRODUCT</b></td>
+																		<td> &nbsp;:&nbsp; </td>
+																		<td> {{mp_product}}</td>
+																	</tr>
+																	<tr>
+																		<td><b>PRICE</b></td>
+																		<td> &nbsp;:&nbsp; </td>
+																		<td> frws {{mp_price}}</td>
+																	</tr>
+																</table>
+															</div>
+															<div class="box-footer">
+																<div class="alert alert-danger col-lg-12 col-md-12 col-sm-12 col-xs-12" id="isa_error_marketplace" style="text-align:left;display:none;">
+																		<strong> <i class="fa fa-times-circle"></i></strong><span id="isa_error_message_marketplace"></span>
+																	</div>
+																	<div class="alert alert-success col-lg-12 col-md-12 col-sm-12 col-xs-12" id="isa_success_marketplace" style="text-align:left;display:none;">
+																		<span id="isa_success_message_marketplace"><img src="../images/spinner.gif" width="20" height="20"> Please wait...</span>
+																	</div>
+																
+																<button type="button" class="btn btn-primary" ng-click="saveMarketPlace(mp_place,mp_product,mp_price,'<?php echo $username;?>')">
+																	Save
+																</button>
+															</div>
+														</form>
+													</div>
+												</div>
+											</div>
+											<div class="col-md-offset-1 col-md-4">
+												<div class="box box-primary">
+													<div class="box-header with-border" style="color:gray">
+														<h1><i>BYE BYE THX TO SET A MARKET</i></h1>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="clearfix"></div>
+									</div>
+								</div>
+							</div>
+						</section>
+					</div>
+				</div>
+
+				<div  class="container-fluid englobe" id="updates_news" hidden>
+					<div class="row">
+						<section style="background:#fff;" id="network_in_one">
+							<br>
+							<div class="container-fluid">
+								<div class="col-md-6">
+									<div class="box box-primary">
+										<div class="box-header with-border">
+											<h3 class="box-title">Did You Know</h3>
+										</div>
+
+										<div class="box-body">
+											<div class="box-tools">
+												<div class="form-group">
+													<input type="text" class="form-control" ng-model="title" placeholder="Title">
+												</div>
+											</div>
+											<div class="box-tools ">
+												<div class="form-group">
+													<textarea class="form-control" rows="3" ng-model="descr" placeholder="Know that..."></textarea>
+												</div>
+											</div>
+											<div class="alert alert-danger col-lg-12 col-md-12 col-sm-12 col-xs-12" id="isa_error_news" style="text-align:left;display: none">
+												<strong> <i class="fa fa-times-circle"></i></strong><span id="isa_error_message_news"></span>
+											</div>
+											<div class="alert alert-success col-lg-12 col-md-12 col-sm-12 col-xs-12" id="isa_success_news" style="text-align:left;display: none">
+												<strong> <i class="fa fa-check"></i></strong><span id="isa_success_message_news"></span>
+											</div>
+										</div>
+										<div class="box-footer">
+											<button type="button" class="btn btn-primary" ng-click="addNews(title,descr)">
+												Save
+											</button>
+										</div>
+
+									</div>
+								</div>
+								<div class="col-md-6">
+									<h1><i>ADDING NEWS HERE FOR PRODUCT IN YOUR STORE</i></h1>
+								</div>
+							</div>
+						</section>
+					</div>
+				</div>
+
+			</div><!-- /.content-wrapper -->
+		</div>
+		<script src="../js/jquery.js"></script>
+		<script src="../js/bootstrap.js"></script>
+		<script src="../js/bootstrap-datepicker.min.js"></script>
+		<script src="../js/angular.min.js"></script>
+		<script src="../js/application.js"></script>
+		<script src="../js/services.js"></script>
+		<script src="../js/dirPagination.js"></script>
+		<script src="../js/jquery.toaster.js"></script>
+		<script src="../js/SimpleAjaxUploader.js"></script>
+		<script type="text/javascript">
+			$(document).on('click', '.dropdown-menu', function(e) {
+				if ($(this).hasClass('keep-open-on-click')) {
+					e.stopPropagation();
+				}
+			});
+
+			$(function() {
+				$('a[title]').tooltip();
+			});
+
+			$(document).ready(function() {
+				$("#product_link_id").click(function() {
+					$("#updates_content").show();
+					$("#updates_news").hide();
+				});
+
+				$("#news_link_id").click(function() {
+					$("#updates_news").show();
+					$("#updates_content").hide();
+
+				});
+			});
+		</script>
+
+	</body>
+</html>

@@ -1,0 +1,1749 @@
+<!DOCTYPE html>
+<!-- Copyright (c) 2016, Mbishinzemungu Tuyisenge Stella. All rights reserved. -->
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>SMART-COOPERATIVE|FINANCE</title>
+		<link href="../font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" >
+		<link href="../fonts/glyphicons-halflings-regular.woff" rel="stylesheet" >
+		<link href="../css/bootstrap.min.css" rel="stylesheet">
+		<link href="../css/bootstrap-datepicker3.min.css"  rel="stylesheet"/>
+		<link href="../css/AdminLTE.css" rel="stylesheet" >
+		<link href="../css/asid.css" rel="stylesheet">
+		<link href="../css/user.css" rel="stylesheet">
+		<link href="../css/sweetalert.css" rel="stylesheet">
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.bundle.js"></script>
+		<style>
+			.glyphicon {
+				margin-right: 5px;
+			}
+			.rating .glyphicon {
+				font-size: 22px;
+			}
+			.rating-num {
+				margin-top: 0px;
+				font-size: 54px;
+			}
+			.progress {
+				margin-bottom: 5px;
+			}
+
+			.rating-desc .col-md-3 {
+				padding-right: 0px;
+			}
+		</style>
+	</head>
+	<body class="bg" ng-app="myAsid" ng-controller="ctr_financecontrib" ng-init="startFinContr('btnuploader','<?php echo $username;?>')">
+		<div class="wrapper">
+			<?php  include("header.html"); ?>
+			<aside class="main-sidebar" >
+				<section class="sidebar">
+					<div id="sidenav1">
+						<div class="collapse navbar-collapse" id="sideNavbar">
+							<div class="panel-group" id="accordion">
+								<div class="panel panel-default">
+									<div class="panel-heading">
+										<h4 class="panel-title"><a href="/admin/member"><span class="glyphicon glyphicon-book"> </span>Member Tools<span class="caret"></span></a></h4>
+									</div>
+								</div>
+								<div class="panel panel-default">
+									<div class="panel-heading">
+										<h4 class="panel-title"><a href="/admin/communication"> <span class="glyphicon glyphicon-cog"> </span>Communication<span class="caret"></span></a></h4>
+									</div>
+								</div>
+
+								<div class="panel panel-default">
+									<div class="panel-heading">
+										<h4 class="panel-title"><a  href=""><span class="fa fa-line-chart"></span> Finance<span class="caret"></span></a></h4>
+									</div>
+									<div id="collapseOne" class="panel-collapse collapse in">
+										<ul class="list-group">
+											<li class="active" id="fees_link_id" >
+												<a href=""><span class="glyphicon glyphicon-list-alt"></span>&nbsp;Fees</a>
+											</li>
+											<li id="budget_link_id">
+												<a href=""><span class="glyphicon glyphicon-briefcase"></span>&nbsp;Bugdet</a>
+											</li>
+											<li id="loan_link_id" ng-click="getCooperativeFinance()">
+												<a href=""><span class="glyphicon glyphicon-bookmark"></span>&nbsp;Loan</a>
+											</li>
+											<li id="income_link_id" ng-click="clickIncome()">
+												<a href=""><i class="fa fa-balance-scale"></i>&nbsp;Income</a>
+											</li>
+										</ul>
+									</div>
+
+								</div>
+
+								<div class="panel panel-default">
+									<div class="panel-heading">
+										<h4 class="panel-title"><a href="/admin/news"><span class="glyphicon glyphicon-calendar"> </span>Updates<span class="caret"></span></a></h4>
+									</div>
+
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</section>
+			</aside>
+			<div class="content-wrapper">
+				<div class="container-fluid englobe" id="fees_content">
+					<div class="row">
+						<div ng-show="contributions.length===0">
+							<i><h3>This month is not yet setted</h3></i>
+						</div>
+					</div>
+					<div class="row">
+						<button type="button" class="btn btn-primary pull-right" ng-click="selectMemberByMonth(monthselected,yearselected)">
+							<span style="visibility: hidden" id="contributionSpinner"><img src="../images/spinner.gif" width="20" height="20"></span>Refresh&nbsp;&nbsp;&nbsp;
+						</button>
+						<button type="button" class="btn btn-success pull-right" ng-click="selectMemberByMonth(monthselected,yearselected)" style="margin-right: 4px">
+							<i class="fa fa-eye"></i> Show contribution
+						</button>
+						<div class="pull-right" style="margin-right: 4px">
+							<select class="form-control" ng-model="monthselected">
+								<option value="01" ng-selected="monthselected==='01'">January</option>
+								<option value="02" ng-selected="monthselected==='02'">February</option>
+								<option value="03" ng-selected="monthselected==='03'">March</option>
+								<option value="04" ng-selected="monthselected==='04'">April</option>
+								<option value="05" ng-selected="monthselected==='05'">May</option>
+								<option value="06" ng-selected="monthselected==='06'">June</option>
+								<option value="07" ng-selected="monthselected==='07'">July</option>
+								<option value="08" ng-selected="monthselected==='08'">August</option>
+								<option value="09" ng-selected="monthselected==='09'">September</option>
+								<option value="10" ng-selected="monthselected==='10'">October</option>
+								<option value="11" ng-selected="monthselected==='11'">November</option>
+								<option value="12" ng-selected="monthselected==='12'">December</option>
+							</select>
+						</div>
+						<div class="pull-right" style="margin-right: 4px">
+							<select class="form-control" ng-model="yearselected">
+								<option value="2016" ng-selected="yearselected===2016">2016</option>
+								<option value="2017" ng-selected="yearselected===2017">2017</option>
+								<option value="2018" ng-selected="yearselected===2018">2018</option>
+								<option value="2019" ng-selected="yearselected===2019">2019</option>
+								<option value="2020" ng-selected="yearselected===2020">2020</option>
+								<option value="2021" ng-selected="yearselected===2021">2021</option>
+								<option value="2022" ng-selected="yearselected===2022">2022</option>
+							</select>
+						</div>
+						<div class="pull-right" style="margin-right: 4px">
+							<input type="text"  ng-model="searchMember" class="form-control"  placeholder="search"/>
+						</div>
+						<div class="pull-right" style="margin-right: 4px">
+							<select class="form-control" ng-model="feesfilter">
+								<option value="">All</option>
+								<option value="2">Payed</option>
+								<option value="1">In Progress</option>
+								<option value="0">Not Payed</option>
+							</select>
+						</div>
+
+						<div class="pull-left">
+							<ul class="nav navbar-nav " style="margin-right: 32px">
+								<li>
+									<button type="button" class="btn btn-success" data-toggle="modal" data-target="#add_contribution" style="margin-bottom:15px!important">
+										<i class="fa fa-calendar"> </i> Set Contribution
+									</button>
+								</li>
+							</ul>
+						</div>
+
+					</div>
+
+					<div class="row">
+						<div class="table-responsive">
+							<div id="loadingif" style="display: none"></div>
+							<table class="table">
+								<thead>
+									<tr>
+										<th>Names</th>
+										<th>Sex</th>
+										<th>Month</th>
+										<th>Total</th>
+										<th>Payed</th>
+										<th>Payed Date</th>
+										<th>Remaining</th>
+										<th>Dead-Line</th>
+										<th>Action</th>
+										<th><span ng-show="collapse==true" ng-click="collapsetoggle(false,'mytbody')" style="cursor: pointer"><i class="fa fa-minus" aria-hidden="true"></i></span><span ng-show="collapse==false" ng-click="collapsetoggle(true,'mytbody')" style="cursor: pointer"><i class="fa fa-plus" aria-hidden="true"></i></span></th>
+									</tr>
+								</thead>
+								<tbody id="mytbody">
+									<tr dir-paginate="member in contributions|filter: searchMember|filter:{status:feesfilter||undefined}:true |itemsPerPage:10" pagination-id="members_page">
+										<td>{{member.firstname}} {{member.lastname}}</td>
+										<td>{{member.sex}}</td>
+										<td>{{member.month_name}}</td>
+										<td>{{member.total|currency:'frw ':0}}</td>
+										<td>
+										<input type="text" class="form-control input-sm"  ng-model="member.amount" id="input_contrib{{$index}}" disabled />
+										</td>
+										<td>{{member.payeddate}}</td>
+										<td>{{member.remaining|currency:'frw ':0}}</td>
+										<td>{{member.deadline}}</td>
+										<td><span ng-if="member.remaining!=0"> <a href="" id="saving_contribution" > <span style="cursor:pointer" ng-click="popContribMemberSave(member.contributorid,'input_contrib'+$index,member.month,member.year,member.total)"
+											class="pull-left span_close" > <i class="fa fa-floppy-o" ></i></span></a> <a href=""><span style="cursor:pointer"
+											ng-click="popContribMember(member.contributorid,'input_contrib'+$index)"
+											class="pull-left span_close">&nbsp;&nbsp;<i  class="fa fa-pencil"></i> &nbsp;&nbsp;</span></a> </span><span ng-if='member.remaining==0'> <i class="fa fa-check bg-green"></i> </span></td>
+										<td style="cursor: pointer" ><a href="" ng-click="getCorresponda('each_member_hist'+$index,member.history.data,member.firstname,member.lastname)" data-toggle="modal" data-target="#each_member_hist{{$index}}" > <i class="fa fa-history" ></i> </a></td>
+									</tr>
+									<tr>
+										<td colspan="10" ng-show="(contributions|filter: searchMember).length ===0"><h4><b>NO result found !</b></h4></td>
+									</tr>
+								</tbody>
+								<tfoot>
+									<tr>
+										<td colspan="2"> Members: <b>{{contributions.length}}</b></td>
+										<td>&nbsp;</td>
+										<td>{{sum_total.sum_total|currency:'frw ':0}}</td>
+										<td>{{sum_payed.sum_payed|currency:'frw ':0}}</td>
+										<td>&nbsp;</td>
+										<td>{{sum_remaining.sum_remaining|currency:'frw ':0}}</td>
+										<td>&nbsp;</td>
+										<td>&nbsp;</td>
+										<td>&nbsp;</td>
+									</tr>
+								</tfoot>
+							</table>
+							<div class="btn-group pull-right" style="">
+								<dir-pagination-controls pagination-id="members_page"></dir-pagination-controls>
+							</div>
+						</div>
+
+					</div>
+				</div>
+
+				<div class="container-fluid englobe" id="budget_content" hidden>
+					<div id="loadingif_budget" style="display: none"></div>
+					<div class="row">
+						<button type="button" class="btn btn-primary pull-right" ng-click="selectBudgetByMonth(monthselected_budget,yearselected_budget)">
+							<span style="visibility: hidden" id="budgetSpinner"><img src="../images/spinner.gif" width="20" height="20"></span>Refresh&nbsp;&nbsp;&nbsp;
+						</button>
+						<button style="margin-right: 4px" type="button" class="btn btn-success pull-right" ng-click="selectBudgetByMonth(monthselected_budget,yearselected_budget)">
+							<i class="fa fa-eye"></i> Show Budget
+						</button>
+						<div class="pull-right" style="margin-right: 4px">
+							<select class="form-control" ng-model="monthselected_budget">
+								<option value="01" ng-selected="monthselected_budget==='01'">January</option>
+								<option value="02" ng-selected="monthselected_budget==='02'">February</option>
+								<option value="03" ng-selected="monthselected_budget==='03'">March</option>
+								<option value="04" ng-selected="monthselected_budget==='04'">April</option>
+								<option value="05" ng-selected="monthselected_budget==='05'">May</option>
+								<option value="06" ng-selected="monthselected_budget==='06'">June</option>
+								<option value="07" ng-selected="monthselected_budget==='07'">July</option>
+								<option value="08" ng-selected="monthselected_budget==='08'">August</option>
+								<option value="09" ng-selected="monthselected_budget==='09'">September</option>
+								<option value="10" ng-selected="monthselected_budget==='10'">October</option>
+								<option value="11" ng-selected="monthselected_budget==='11'">November</option>
+								<option value="12" ng-selected="monthselected_budget==='12'">December</option>
+							</select>
+						</div>
+						<div class="pull-right" style="margin-right: 4px">
+							<select class="form-control" ng-model="yearselected_budget">
+								<option value="2016" ng-selected="yearselected_budget===2016">2016</option>
+								<option value="2017" ng-selected="yearselected_budget===2017">2017</option>
+								<option value="2018" ng-selected="yearselected_budget===2018">2018</option>
+								<option value="2019" ng-selected="yearselected_budget===2019">2019</option>
+								<option value="2020" ng-selected="yearselected_budget===2020">2020</option>
+								<option value="2021" ng-selected="yearselected_budget===2021">2021</option>
+								<option value="2022" ng-selected="yearselected_budget===2022">2022</option>
+							</select>
+						</div>
+						<div class="pull-right" style="margin-right: 4px">
+							<input type="text"  ng-model="searchBuget" class="form-control"  placeholder="search"/>
+						</div>
+						<div class="pull-right" style="margin-right: 4px">
+							<select class="form-control" ng-model="budgetfilter">
+								<option value="">All</option>
+								<option value="2">Totally Spent</option>
+								<option value="1">In Spent Progress</option>
+								<option value="0">Not Spent At All</option>
+							</select>
+						</div>
+
+						<div class="pull-left">
+							<ul class="nav navbar-nav " style="margin-right: 32px">
+								<li>
+									<button type="button" class="btn btn-success" data-toggle="modal" data-target="#add_budget_modal" style="margin-bottom:15px!important">
+										<i class="fa fa-calendar-check-o"> </i> Set Budget
+									</button>
+								</li>
+							</ul>
+
+						</div>
+
+					</div>
+
+					<div class="row">
+						<div class="table-responsive">
+							<div id="loadingif_budget" style="display: none"></div>
+							<table class="table">
+								<thead>
+									<tr>
+										<th>Name</th>
+										<th>Year</th>
+										<th>Month</th>
+										<th>Total Budget</th>
+										<th>Total Spent</th>
+										<th>Total Remaining</th>
+										<th>Add Expense</th>
+										<th>Edit</th>
+										<th><span ng-show="collapse==true" ng-click="collapsetoggle(false,'budgetbody')" style="cursor: pointer"><i class="fa fa-minus" aria-hidden="true"></i></span><span ng-show="collapse==false" ng-click="collapsetoggle(true,'budgetbody')" style="cursor: pointer"><i class="fa fa-plus" aria-hidden="true"></i></span></th>
+									</tr>
+								</thead>
+								<tbody id="budgetbody">
+									<tr dir-paginate="budget in budget_details|filter: searchBuget|filter:{status:budgetfilter||undefined}:true  |itemsPerPage:7" pagination-id="budget_page" ng-class='budget.budgetremaining === "0" ? "bg-danger" : (budget.budgetremaining === budget.budgetamount ? "bg-success" : "bg-warning")'>
+										<td>{{budget.budgetname}}</td>
+										<td>{{budget.budgetyear}}</td>
+										<td>{{budget.budgetmonth}}</td>
+										<td>{{budget.budgetamount|currency:'frw ':0}}</td>
+										<td>{{budget.budgetexpense|currency:'frw ':0}}</td>
+										<td>{{budget.budgetremaining|currency:'frw ':0}}</td>
+										<td><a href="#new_expense_modal" data-toggle="modal" id="adding_expense" ng-click="getTheBudgetDetails(budget)" > <span class="label label-primary "><i class="glyphicon glyphicon-transfer" ></i>Add exp</span> </a></td>
+										<td><i style="cursor: pointer" class="fa fa-pencil text-black" data-toggle="modal" data-target="#edit_budget_modal{{$index}}" ng-click="editBudget('edit_budget_modal'+$index,budget.id,budget.budgetname,budget.budgetamount,budget.budgetyear,budget.budgetmonth)"></i></td>
+										<td><i style="cursor: pointer" class="fa fa-history text-black" data-toggle="modal" data-target="#contrib_historic_modal{{$index}}" ng-click="budgetHistCorrespond('contrib_historic_modal'+$index,budget.all)"></i></td>
+									</tr>
+									<tr>
+										<td colspan="8" ng-show="(budget_details|filter: searchBuget).length ===0"><h4><b>NO result found !</b></h4></td>
+									</tr>
+								</tbody>
+								<tfoot>
+									<tr>
+										<td>&nbsp;</td>
+										<td>&nbsp;</td>
+										<td>&nbsp;</td>
+										<td>{{sum_amount|currency:'frw ':0}}</td>
+										<td>{{sum_expense|currency:'frw ':0}}</td>
+										<td>{{sum_remain|currency:'frw ':0}}</td>
+										<td>&nbsp;</td>
+										<td>&nbsp;</td>
+										<td>&nbsp;</td>
+									</tr>
+								</tfoot>
+
+							</table>
+							<div class="btn-group pull-right" style="">
+								<dir-pagination-controls pagination-id="budget_page"></dir-pagination-controls>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="container-fluid englobe" id="loan_content" hidden>
+					<div class="row clearfix">
+						<div class="pull-left">
+							<ul class="nav navbar-nav " >
+								<li class="dropdown messages-menu">
+									<a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="../images/Money-icon.png" /> <span class="label label-info">{{members_requests}}</span> </a>
+									<ul class="dropdown-menu" >
+										<li class="header">
+											You have {{members_requests}} request
+										</li>
+										<li>
+											<ul class="menu">
+												<li ng-repeat="requestsDetail in members_requestsDetail" ng-click="readRequestlist(requestsDetail.memberid,requestsDetail.id)">
+													<a href="#readRequest">
+													<div class="pull-left">
+														<img src="../{{requestsDetail.coverurl}}" class="img-circle" alt="User Image">
+													</div> <h4> {{requestsDetail.firstname}} {{requestsDetail.lastname}} <small><i class="fa fa-clock-o"></i> {{requestsDetail.sentdate}}</small></h4>
+													<p>
+														{{requestsDetail.title}}
+													</p> </a>
+												</li>
+
+											</ul>
+										</li>
+									</ul>
+								</li>
+							</ul>
+
+							<ul class="nav navbar-nav">
+								<li class="dropdown messages-menu">
+									<a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="glyphicon glyphicon-thumbs-up"></i> <span class="label label-success">{{members_approves}}</span> </a>
+									<ul class="dropdown-menu">
+										<li class="header">
+											You have {{members_approves}} messages
+										</li>
+										<li ng-repeat="approveDetail in members_approveDetail" ng-click="readRequestlist(approveDetail.memberid,approveDetail.id)">
+											<!-- inner menu: contains the actual data -->
+											<ul class="menu">
+												<li>
+													<!-- start message -->
+													<a href="#">
+													<div class="pull-left">
+														<img src="../{{approveDetail.coverurl}}" class="img-circle" alt="User Image">
+													</div> <h4> {{approveDetail.firstname}} {{approveDetail.lastname}} <small><i class="fa fa-clock-o"></i> {{approveDetail.sentdate}}</small></h4>
+													<p>
+														{{approveDetail.title}}
+													</p> </a>
+												</li>
+											</ul>
+										</li>
+
+									</ul>
+								</li>
+
+							</ul>
+
+							<ul class="nav navbar-nav" >
+								<li class="dropdown messages-menu">
+									<a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="	glyphicon glyphicon-repeat"></i> <span class="label label-warning">{{members_suspended}}</span> </a>
+									<ul class="dropdown-menu">
+										<li class="header">
+											You have {{members_suspended}} messages
+										</li>
+										<li ng-repeat="suspDetail in members_suspendedDetail" ng-click="readRequestlist(suspDetail.memberid,suspDetail.id)">
+											<!-- inner menu: contains the actual data -->
+											<ul class="menu">
+												<li>
+													<!-- start message -->
+													<a href="#">
+													<div class="pull-left">
+														<img src="../{{suspDetail.coverurl}}" class="img-circle" alt="User Image">
+													</div> <h4> {{suspDetail.firstname}} {{suspDetail.lastname}} <small><i class="fa fa-clock-o"></i> {{suspDetail.sentdate}}</small></h4>
+													<p>
+														{{suspDetail.title}}
+													</p> </a>
+												</li>
+
+											</ul>
+										</li>
+
+									</ul>
+								</li>
+							</ul>
+
+							<ul class="nav navbar-nav">
+								<li class="dropdown messages-menu">
+									<a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="glyphicon glyphicon-thumbs-down"></i> <span class="label label-danger">{{members_dispprove}}</span> </a>
+									<ul class="dropdown-menu">
+										<li class="header">
+											You have {{members_dispprove}} message
+										</li>
+										<li ng-repeat="disDetail in members_disapproveDetail" ng-click="readRequestlist(disDetail.memberid,disDetail.id)">
+											<ul class="menu">
+												<li>
+													<a href="#">
+													<div class="pull-left">
+														<img src="../{{disDetail.coverurl}}" class="img-circle" alt="User Image">
+													</div> <h4> {{disDetail.firstname}} {{disDetail.lastname}} <small><i class="fa fa-clock-o"></i> {{disDetail.sentdate}}</small></h4>
+													<p>
+														{{disDetail.title}}
+													</p> </a>
+												</li>
+											</ul>
+										</li>
+									</ul>
+								</li>
+							</ul>
+						</div>
+						<div class="pull-right">
+							<button class="btn btn-success" style="margin-right: 5px;" data-toggle="modal"  data-target="#set_interest_modal" >
+								<i class="fa fa-dollar" aria-hidden="true"></i> Set Interest
+							</button>
+
+						</div>
+					</div>
+					<div class="row">
+						<div  style="background:#fff;position: relative;">
+							<div class="box-body" style="padding:0px">
+								<div class="box-header with-border clearfix bg-blue-gradient">
+									<h4 class="box-title pull-left"><span style="margin-right: 16px"> <i class="fa fa-calendar" aria-hidden="true"></i> Cooperative Starting Date : <span style="font-size: 80%"> {{copstartingDate}} </span></span><span style="margin-right: 16px"><i class="fa fa-clock-o" aria-hidden="true"></i> Cooperative Duration : <span style="font-size: 80%"> {{copDurationCop}} </span></span><span><i class="fa fa-dollar" aria-hidden="true"></i> Cooperative Budget : <span style="font-size: 80%"> {{cooperativeCapital|currency:'frw ':0}} </span></span></h4>
+									<span class="pull-right"> <span ng-show="collapse==true" ng-click="collapsetoggle(false,'requestStatistic')" style="cursor: pointer"><i class="fa fa-minus" ></i></span> <span ng-show="collapse==false" ng-click="collapsetoggle(true,'requestStatistic')" style="cursor: pointer"><i class="fa fa-plus" ></i></span> </span>
+								</div>
+							</div>
+							<div class="box-body" id="requestStatistic" style="padding:0px">
+								<div id="loadingif1" style="display: none"></div>
+								<div class="col-md-12 box-header with-border clearfix" style="margin-bottom: 8px;color:gray">
+									<div class="col-md-12">
+										<div class="well well-sm">
+											<div class="row">
+												<div class="col-xs-12 col-md-4">
+													<div class="col-xs-12 col-md-12">
+														<br>
+														<br>
+														<table>
+															<tr>
+																<td>Details in Year : &nbsp;</td>
+																<td>
+																<select class="form-control input-sm " ng-model="yearselected" ng-change="showYearDeatailFinance(yearselected)" style="width: 150px;">
+																	<option value="2016" ng-selected="yearselected===2016">2016</option>
+																	<option value="2017" ng-selected="yearselected===2017">2017</option>
+																	<option value="2018" ng-selected="yearselected===2018">2018</option>
+																	<option value="2019" ng-selected="yearselected===2019">2019</option>
+																	<option value="2020" ng-selected="yearselected===2020">2020</option>
+																	<option value="2021" ng-selected="yearselected===2021">2021</option>
+																	<option value="2022" ng-selected="yearselected===2022">2022</option>
+																</select></td>
+															</tr>
+														</table>
+
+													</div>
+
+												</div>
+												<div class="col-md-8">
+													<div class="row rating-desc" style="margin: 5px;">
+														<div class="col-md-4">
+															<span class="glyphicon glyphicon-star"></span>
+															Expected Amount :
+														</div>
+														<div class="col-md-8">
+															<div class="progress">
+																<div class="progress-bar" role="progressbar" aria-valuenow="20"
+																aria-valuemin="0" aria-valuemax="100" style="width: 100%;">
+																	<b style="color: #000">{{amountExpected|currency:'':0}}</b>
+																</div>
+															</div>
+														</div>
+														<div class="col-md-4">
+															<span class="glyphicon glyphicon-star"></span>
+															Account Balance :
+														</div>
+														<div class="col-md-8">
+															<div class="progress">
+																<div class="progress-bar" role="progressbar" aria-valuenow="20"
+																aria-valuemin="0" aria-valuemax="100" style="width: {{amountavailablePercent}}%;">
+																	<b style="color: #000">{{amountavailable|currency:'':0}}</b>
+																</div>
+															</div>
+														</div>
+														<div class="col-md-4">
+															<span class="glyphicon glyphicon-star"></span>
+															Glossary Loan Amount:
+														</div>
+														<div class="col-md-8">
+															<div class="progress">
+																<div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="20"
+																aria-valuemin="0" aria-valuemax="100" style="width: 100%;">
+																	<b style="color: #000">{{annualLyRequestAmount|currency:'':0}}</b>
+																</div>
+															</div>
+														</div>
+														<div class="col-md-4">
+															<span class="glyphicon glyphicon-star"></span>
+															Glossary Approved :
+														</div>
+														<div class="col-md-8">
+															<div class="progress">
+																<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="80"
+																aria-valuemin="0" aria-valuemax="100" style="width: {{annualLyRequestApprovedPercent}}%">
+																	<b style="color: #000">{{annualLyRequestApproved|currency:'':0}}</b>
+																</div>
+															</div>
+														</div>
+														<div class="col-md-4">
+															<span class="glyphicon glyphicon-star"></span>
+															Glossary Disapproved :
+														</div>
+														<div class="col-md-8">
+															<div class="progress">
+																<div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: {{annualLyRequestDisapprovedPercent}}%">
+																	<b style="color: #000">{{annualLyRequestDisapproved|currency:'':0}}</b>
+																</div>
+															</div>
+														</div>
+														<div class="col-md-4">
+															<span class="glyphicon glyphicon-star"></span>
+															Glossary Suspended :
+														</div>
+														<div class="col-md-8">
+															<div class="progress">
+																<div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="80"
+																aria-valuemin="0" aria-valuemax="100" style="width: {{annualLyRequestSuspendedPercent}}%">
+																	<b style="color: #000">{{annualLyRequestSuspended|currency:'':0}}</b>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="box-body" style="padding:0px;display:none" id="readRequest" >
+								<div class="box-header with-border clearfix bg-blue-gradient text-center">
+									<h4 class="box-title"> Request Details </h4>
+									<span class="pull-right" > <span ng-show="collapse==true" ng-click="collapsetoggle(false,'fmessage')" style="cursor: pointer"><i class="fa fa-minus" aria-hidden="true"></i></span><span ng-show="collapse==false" ng-click="collapsetoggle(true,'fmessage')" style="cursor: pointer"><i class="fa fa-plus" aria-hidden="true"></i></span> </span>
+								</div>
+								<div id="fmessage">
+									<div class="col-md-4">
+										<h5 class="text-center text-black text-bold">Request History</h5>
+										<div style="height: 580px;font-size: 90%">
+											<div class="form-group col-md-12" style="margin-bottom: 16px">
+												<div class="col-md-6">
+													<input type="text" placeholder="search" class="form-control input-sm" ng-model="searchrequesthist" />
+												</div>
+												<div class="col-md-6">
+													<select class="form-control input-sm" ng-model="requesting">
+														<option value="">All</option>
+														<option value="r">Request</option>
+														<option value="d">Denied</option>
+														<option value="a">Aproved</option>
+														<option value="s">Suspended</option>
+													</select>
+												</div>
+											</div>
+
+											<table class="table-condensed table-bordered table-responsive" style="width:100%;margin-top: 8px">
+												<thead class="thead-height">
+													<th>Date</th>
+													<th>Request Description</th>
+												</thead>
+												<tbody class="tbody-height" style="color:gray;">
+													<tr ng-class='list.status === "a"? "bg-success" :(list.status==="s" ? "bg-warning" : list.status==="r" ? "bg-info" : "bg-danger")' style="cursor: pointer" dir-paginate="list in members_requests_list|filter: searchrequesthist|filter:{status:requesting||undefined}:true |itemsPerPage:5" pagination-id="request_page_history" >
+														<td style="width:100px" ng-click="readRequestlist(list.memberid,list.id)">{{list.sentdateChange}}</td>
+														<td ng-click="readRequestlist(list.memberid,list.id)"><b>{{list.title}}</b>
+														<br>
+														request by <b>{{list.firstname}} {{list.lastname}}</b>
+														<br>
+														cash:<b>{{list.amount|currency:'frw ':0}}</b></td>
+													</tr>
+													<tr>
+														<td colspan="2" ng-show="(members_requests_list|filter: searchrequesthist).length ===0"><i><b>NO result found !</b></i></td>
+													</tr>
+												</tbody>
+											</table>
+											<div class="btn-group pull-right" >
+												<dir-pagination-controls pagination-id="request_page_history"></dir-pagination-controls>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-8">
+										<center>
+											<h5 class="text-black ">History of <b>{{requestes.firstname}} {{requestes.lastname}}</h5>
+										</center>
+
+										<div style="height: 270px;font-size: 90%;overflow-y: auto">
+											<table class="table-condensed table-bordered table-responsive" style="width:100%">
+												<thead class="thead-height">
+													<th>Title</th>
+													<th>Request-Date</th>
+													<th>Sub-Date</th>
+													<th>Deadline</th>
+													<th>Already payed</th>
+													<th>Remaing A</th>
+													<th>Payback Amount</th>
+													<th>Status</th>
+												</thead>
+												<tbody class="tbody-height" style="font-weight: normal">
+													<tr ng-class='listBy.status === "a"? "bg-success" :(listBy.status==="s" ? "bg-warning" : listBy.status==="r" ? "bg-info" : "bg-danger")' style="cursor: pointer" ng-repeat="listBy in requestes_list">
+														<td ng-click="readRequest(listBy.memberid,listBy.id)">{{listBy.title}}</td>
+														<td ng-click="readRequest(listBy.memberid,listBy.id)">{{listBy.sentdateChange}}</td>
+														<td ng-click="readRequest(listBy.memberid,listBy.id)">{{listBy.submissiondateChange}}</td>
+														<td ng-click="readRequest(listBy.memberid,listBy.id)">{{listBy.dealineChange}}</td>
+														<td>
+														<input class="form-control input-sm" id="input_loan{{$index}}" ng-model="listBy.totalpayednow" style="width: 100" placeholder="pay" disabled/>
+														</td>
+														<td ng-click="readRequest(listBy.memberid,listBy.id)">{{listBy.remaining}}</td>
+														<td ng-click="readRequest(listBy.memberid,listBy.id)">{{listBy.totaltopayback}}</td>
+														<td style="width:70px">
+														<div ng-if="listBy.status==='a'">
+															<a href=""  id="saving_request" ><span style="cursor:pointer" ng-click="popLoanMemberSave(listBy.id,listBy.memberid,'input_loan'+$index)"
+															class="pull-left span_close" > <i class="fa fa-floppy-o" ></i></span></a>
+
+															<a href=""><span style="cursor:pointer" ng-click="popLoanMember('input_loan'+$index)"
+															class="pull-left span_close">&nbsp;&nbsp;<i  class="fa fa-pencil"></i> &nbsp;&nbsp;</span></a>
+
+															<span ng-if="listBy.remaining ==='0'" style="color:green;font-size: 16px"> <i  class="fa fa-check-square"></i> </span>
+															<span ng-if="listBy.remaining!=='0'" style="color:red;font-size: 16px"> <i  class="fa fa-times-circle"></i> </span>
+														</div>
+														<div ng-if="listBy.status==='d'">
+															<span style="color:red;font-size: 16px"> <i  class="fa fa-times-circle"></i> </span>
+														</div>
+														<div ng-if="listBy.status==='s'">
+															<span style="color:orange;font-size: 16px"> <i  class="fa fa-exclamation-triangle"></i> </span>
+														</div>
+														<div ng-if="listBy.status==='r'">
+															<span style="color:#007BB6;font-size: 16px"> <i  class="fa fa-bell"></i> </span>
+														</div></td>
+												</tbody>
+											</table>
+										</div>
+										<br>
+										<br>
+										<div class="col-md-12">
+											<table class="table-condensed table-bordered table-responsive" style="width:100%">
+												<thead class="thead-height">
+													<th>Title</th>
+													<th>Budget</th>
+													<th>Amount</th>
+													<th>Deadline</th>
+													<th>Days</th>
+													<th>Aproximation</th>
+													<th>Historic</th>
+												</thead>
+												<tbody class="tbody-height" style="font-weight: normal">
+													<tr ng-class='requestes.status === "a"? "bg-success" :(requestes.status==="s" ? "bg-warning" : requestes.status==="r" ? "bg-info" : "bg-danger")'>
+														<td>{{requestes.title}}</td>
+														<td>{{cooperativeCapital|currency:'':0}}</td>
+														<td>{{requestes.amount|currency:'':0}}</td>
+														<td>{{requestes.paybackdatechanged}}</td>
+														<td>{{requestes.days}}days</td>
+														<td>{{requestes.deadlinecount}}</td>
+														<td>
+														<button class="btn btn-sm bg-primary" data-toggle="modal" data-target="#checkout">
+															<i class="fa fa-tags"></i> Check
+														</button></td>
+													</tr>
+												</tbody>
+											</table>
+											<br>
+											<br>
+											<blockquote class="blockquote" style="font-size: 95%">
+												<p class="mb-0">
+													{{requestes.description}}
+												</p>
+												<footer class="blockquote-footer">
+													Description
+												</footer>
+											</blockquote>
+											<br>
+											<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12  ">
+												<input type="text" ng-model="interest_perc" style="display: none" />
+
+												<div id="datepicker1" class="input-group date" data-provide="datepicker" data-date-format="yyyy-mm-dd"  style="width:300px">
+													<input class="form-control input-sm" placeholder="Payback Date" type="date" ng-model="datebyadmin"/>
+													<span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+												</div>
+												<span style="position: absolute;right:392px;bottom:36px;color: black;cursor: pointer;font-size:26px" ng-click="assumedInterest(requestes.id,datebyadmin,requestes.amount,requestes.paybackdate,interest_perc)"><i class="fa fa-eye" aria-hidden="true"></i></span>
+
+												<span class="text-danger" style="margin-bottom: 8px">{{will_pay}}</span>
+
+											</div>
+											<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+												<div class="pull-left" style="margin-bottom: 17px">
+													<button ng-if="requestes.status==='r'" type="button" class="btn btn-success btn-sm" ng-click="aprove(requestes.id,requestes.memberid,cooperativeCapital,requestes.amount,interest_perc,requestes.paybackdate)" style="margin-right: 16px">
+														<i class="glyphicon glyphicon-thumbs-up"></i> Approve
+													</button>
+													<button ng-if="requestes.status==='r'" type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#disaproveModal"  style="margin-right: 16px">
+														<i class="glyphicon glyphicon-thumbs-down"></i> Disaprove
+													</button>
+													<button ng-if="requestes.status==='r'" type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#suspendModal" style="margin-right: 16px" >
+														<i class="glyphicon glyphicon-repeat"></i> Suspend
+													</button>
+													<button ng-if="requestes.status==='s'" type="button" class="btn btn-info btn-sm"  ng-click="reaprove(requestes.id,requestes.memberid)">
+														<i class="glyphicon glyphicon-refresh"></i> Re-Approve
+													</button>
+												</div>
+
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="container-fluid englobe" id="income_content" hidden>
+					<div class="row">
+						<div class="box-header with-border clearfix bg-blue-gradient text-center">
+							<h4 class="box-title"> Income Summary </h4>
+							<span class="pull-right" > <span ng-show="collapse==true" ng-click="collapsetoggle(false,'income_summary_div')" style="cursor: pointer"><i class="fa fa-minus" aria-hidden="true"></i></span> <span ng-show="collapse==false" ng-click="collapsetoggle(true,'income_summary_div')" style="cursor: pointer"><i class="fa fa-plus" aria-hidden="true"></i></span> </span>
+						</div>
+					</div>
+					<br />
+					<div class="row" id="income_summary_div">
+						<div class="col-md-9">
+							<table class="table table-striped">
+								<thead>
+									<th>#ID</th>
+									<th>Inc Name</th>
+									<th>Added on</th>
+									<th>Number</th>
+									<th>Details</th>
+								</thead>
+								<tbody>
+									<tr dir-paginate="income in incomeslist|itemsPerPage:12" pagination-id="income_summary_page">
+										<td>{{income.id_modified}}</td>
+										<td> <input type="text" class="form-control input-sm" ng-model="income.name" id="input_incomeName{{$index}}" style="width: 120px" disabled/> </td>
+										<td>{{income.addedon}}</td>
+										<td>{{income.count}} </td>
+										<td class="text-left">
+											<i class="fa fa-eye text-blue text-right" style="cursor: pointer" ng-click="subIncome('each_income_detail'+$index,income.name)" data-toggle="modal" data-target="#each_income_detail{{$index}}"></i>&nbsp;&nbsp;
+										</td>
+									</tr>
+
+								</tbody>
+							</table>
+							<div class="btn-group pull-right">
+								<dir-pagination-controls pagination-id="income_summary_page"></dir-pagination-controls>
+							</div>
+						</div>
+
+						<div class="col-md-3">
+							<div class="newstaff" style="height: 600px;">
+								<div class="head1">
+									<span><b>Add Income</b></span>
+								</div>
+								<div class="body1" style="padding: 20px">
+									<form id="form_addIncome">
+										<div class="form-group">
+											<select class="form-control" ng-model="income_master">
+												<option value="">--Select Income--</option>
+												<option ng-repeat="incom in incomeslist" value="{{incom.name}}">{{incom.name}}</option>
+											</select>
+											<span data-toggle="modal" data-target="#income_name_modal" style="position: absolute;right: 20px;top:68px; cursor: pointer"><i class="fa fa-plus-circle"></i></span>
+										</div>
+										<div class="form-group">
+											<input type="text" class="form-control" id="income_name" placeholder="Name">
+										</div>
+										<div class="form-group">
+											<input type="text" class="form-control" id="income_responsible" placeholder="In Charge">
+										</div>
+										<div class="form-group">
+											<input type="text" class="form-control" id="income_responsible_phone" placeholder="Phone">
+										</div>
+										<div class="form-group" >
+											<select class="form-control" id="income_type">
+												<option value="1">Daily</option>
+												<option value="2">Weekly</option>
+												<option value="3">Monthly</option>
+												<option value="4">Irregular</option>
+											</select>
+										</div>
+										<div class="form-group">
+											<input type="text" class="form-control" id="income_location" placeholder="Location">
+										</div>
+										<div class="form-group">
+											<textarea class="form-control" id="income_description" rows="2" placeholder="Description"></textarea>
+										</div>
+										<div class="form-group">
+											<input type="text" class="form-control" id="income_payment" placeholder="Payment">
+										</div>
+
+										<div class="alert alert-danger col-md-12" id="isa_error_add_income" style="text-align:left;display:none">
+											<strong> <i class="fa fa-times-circle"></i></strong><span id="isa_error_message_add_income"></span>
+										</div>
+										<div class="alert alert-success col-lg-12 col-md-12 col-sm-12 col-xs-12" id="isa_success_add_income" style="text-align:left;display:none">
+											<span id="isa_success_message_add_income"><img src="../images/spinner.gif" width="20" height="20"> Please wait...</span>
+										</div>
+
+										<button class="btn btn-primary" style="width: 100%;color:white" ng-click="addChildToRootIncome(income_master)">
+											<span><i class="fa fa-plus "></i> Add Income <span id="income_spinner_loading" style="visibility: hidden;"><img src="../images/spinner.gif" width="20" height="20"/></span></span>
+										</button>
+
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<br />
+					<div class="row">
+						<div class="box-header with-border clearfix bg-blue-gradient text-center">
+							<h4 class="box-title"> Income Details </h4>
+							<span class="pull-right" > <span class="pull-right" > <span ng-show="collapse==true" ng-click="collapsetoggle(false,'subincome_details_div')" style="cursor: pointer"><i class="fa fa-minus" aria-hidden="true"></i></span> <span ng-show="collapse==false" ng-click="collapsetoggle(true,'subincome_details_div')" style="cursor: pointer"><i class="fa fa-plus" aria-hidden="true"></i></span> </span> </span>
+						</div>
+					</div>
+					<div class="row" id="subincome_details_div">
+						<div class="col-md-12">
+							<br>
+							<ul class="nav nav-tabs" style="margin-left: 0px;border-bottom: 1px solid #B3D4FC">
+								<li  ng-repeat="sub_inc_tab in incomeslisthavingchildren" ng-class='{"active": $index==0}' ng-click="subtabsHavingChildren(sub_inc_tab.name)">
+									<a data-toggle="tab" href="#{{sub_inc_tab.name}}">{{sub_inc_tab.name}}</a>
+								</li>
+							</ul>
+							<br>
+							<div class="tab-content">
+								<div ng-repeat="sub_inc_tab_content in incomeslist"  id="{{sub_inc_tab_content.name}}" class="tab-pane" ng-class='{"fade in active": $index==0}'>
+									<button type="button" class="btn btn-primary pull-right" >
+										<span style="visibility: hidden" ><img src="../images/spinner.gif" width="20" height="20"></span>Refresh&nbsp;&nbsp;&nbsp;
+									</button>
+									<div class="pull-right" style="margin-right: 4px">
+										<select class="form-control" >
+											<option value="2016" >2016</option>
+											<option value="2017" >2017</option>
+											<option value="2018" >2018</option>
+											<option value="2019" >2019</option>
+											<option value="2020" >2020</option>
+											<option value="2021" >2021</option>
+											<option value="2022" >2022</option>
+										</select>
+									</div>
+
+									<div class="pull-left">
+										<ul class="nav navbar-nav " style="margin-right: 32px">
+											<li>
+												<div class="pull-right" >
+													<input type="text" class="form-control" placeholder="search" ng-model="search_subincome"/>
+												</div>
+											</li>
+										</ul>
+									</div>
+									<table class="table table-striped">
+										<thead>
+											<th>#ID</th>
+											<th>Name</th>
+											<th>Location</th>
+											<th>Manager</th>
+											<th>Phone</th>
+											<th>Total</th>
+											<th>Payed</th>
+											<th>Date</th>
+											<th>
+											<select class="form-control input-sm" ng-model="subincome_tab_filter" >
+												<option value="" >All</option>
+												<option value="1" >Daily</option>
+												<option value="2" >Weekly</option>
+												<option value="3" >Monthly</option>
+											</select></th>
+											<th>Action</th>
+										</thead>
+										<tbody>
+											<tr dir-paginate="mysub_income_tab in mysub_income_tabs_withChildren|filter: search_subincome|filter:{type:subincome_tab_filter||undefined}:true|itemsPerPage:4" pagination-id="income_tab_page">
+												<td>{{mysub_income_tab.id_modified}}</td>
+												<td>{{mysub_income_tab.name}}</td>
+												<td>{{mysub_income_tab.location}}</td>
+												<td>{{mysub_income_tab.responsable}} </td>
+												<td>{{mysub_income_tab.phone}}</td>
+												<td>{{mysub_income_tab.payment|currency:' ':0}}</td>
+												<td>
+												<input type="text" class="form-control input-sm" placeholder="amount" id="input_subIncomeTabAmount{{$index}}" style="width: 210px" />
+												</td>
+												<td>
+													<div class="input-group date" data-provide="datepicker" data-date-format="yyyy-mm-dd" style="width: 210px">
+														<input  class="form-control input-sm"  type="date" placeholder="payed date" id="input_subIncomeTabDate{{$index}}"  />
+														<span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+													</div>
+												</td>
+												<td>{{mysub_income_tab.type_name}}</td>
+												<td style="width: 100px;">
+													<span style="cursor:pointer" class="text-black" ng-click="editSubIncomePaymentSave(sub_inc_tab.name,mysub_income_tab.id,'input_subIncomeTabAmount'+$index,'input_subIncomeTabDate'+$index)"><i class="fa fa-floppy-o" ></i></span>&nbsp;&nbsp;						
+													<span style="cursor:pointer" class="text-black" ng-click="editSubIncomePayment('sub_inc_tab.name'+$index,'input_subIncomeTabAmount'+$index,'input_subIncomeTabDate'+$index)"><i class="fa fa-pencil"></i></span>&nbsp;&nbsp; 													<span style="cursor:pointer" class="text-black" ><i class="fa fa-history"></i> </span>												
+												</td>
+											</tr>
+										</tbody>
+									</table>
+									<div class="btn-group pull-right">
+										<dir-pagination-controls pagination-id="income_tab_page"></dir-pagination-controls>
+									</div>
+								</div>
+							</div>
+
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="box-header with-border clearfix bg-blue-gradient text-center">
+							<h4 class="box-title"> Statistics </h4>
+							<span class="pull-right" > <span ng-show="collapse==true" ng-click="collapsetoggle(false,'subincome_statistics_div')" style="cursor: pointer"><i class="fa fa-minus" aria-hidden="true"></i></span> <span ng-show="collapse==false" ng-click="collapsetoggle(true,'subincome_statistics_div')" style="cursor: pointer"><i class="fa fa-plus" aria-hidden="true"></i></span> </span>
+						</div>
+					</div>
+					<div class="row" id="subincome_statistics_div">
+						<div class="col-md-6">
+							<div class="col-md-12">
+								<h3 class="text-center text-black"><i>Annual Income summary</i></h3>
+							</div>
+							<div class="col-md-7 col-md-offset-3" style="margin-top: 8px;">
+								<table>
+									<tr>
+										<td>
+										<select class="form-control input-sm " style="width: 150px;">
+											<option value="2016" >2016</option>
+											<option value="2017" >2017</option>
+											<option value="2018" >2018</option>
+											<option value="2019" >2019</option>
+											<option value="2020" >2020</option>
+											<option value="2021" >2021</option>
+											<option value="2022" >2022</option>
+										</select></td>
+										<td>
+										<div style="margin-top: 10px">
+											<button class="btn btn-primary btn-sm">
+												Refresh
+											</button>
+										</div></td>
+									</tr>
+								</table>
+							</div>
+
+							<canvas id="pieChart"  height="150"></canvas>
+						</div>
+						<div class="col-md-6">
+							<div class="col-md-12">
+								<h3 class="text-center text-black"><i>Annual Income details</i></h3>
+							</div>
+							<div class="col-md-7 col-md-offset-3" style="margin-top: 8px;">
+								<table>
+									<tr>
+										<td>
+										<select class="form-control input-sm"  style="width: 150px;">
+											<option value="moto">Moto</option>
+											<option value="moto">House</option>
+											<option value="moto">Boutic</option>
+										</select></td>
+										<td>
+										<div style="margin-top: 10px">
+											<button class="btn btn-primary btn-sm">
+												Refresh
+											</button>
+										</div></td>
+									</tr>
+								</table>
+							</div>
+
+							<canvas id="barChart"  height="150"></canvas>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- MODALS PART -->
+
+			<div class="container">
+				<div class="modal fade" id="add_contribution">
+					<div class="modal-dialog ">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal">
+									&times;
+								</button>
+								<h4 class="modal-title"><b>Add Contribution</b></h4>
+							</div>
+							<div class="modal-body">
+								<div class="tabbable" style="margin-left: 0px;font-size: 16px; ">
+									<ul class="nav nav-tabs" style="margin-left: 0px;border-bottom: 1px solid #B3D4FC" >
+										<li class="active" style="width:50%">
+											<a href="#monthtab" data-toggle="tab" >Month</a>
+										</li>
+										<li style="width:50%">
+											<a href="#yeartab" data-toggle="tab" >Year</a>
+										</li>
+									</ul>
+
+									<div class="tab-content" style="background: #fff; margin-top: 25px;">
+										<div id="monthtab" class="tab-pane fade in active">
+											<form id="form_monthcontribution">
+												<div class="form-group">
+													<div class="alert alert-danger col-lg-12 col-md-12 col-sm-12 col-xs-12" id="isa_error_setmonth" style="text-align:left;display:none">
+														<strong> <i class="fa fa-times-circle"></i></strong><span id="isa_error_message_setmonth"></span>
+													</div>
+												</div>
+												<div class="form-group">
+													<div class="alert alert-success col-lg-12 col-md-12 col-sm-12 col-xs-12" id="isa_success_setmonth" style="text-align:left;display:none">
+														<span id="isa_success_message_setmonth"><img src="../images/spinner.gif" width="20" height="20"> Please wait...</span>
+													</div>
+												</div>
+												<div class="form-group">
+													<select class="form-control" ng-model="yearsetted">
+														<option value="">Year</option>
+														<option value="2016" ng-selected="yearsetted===2016">2016</option>
+														<option value="2017" ng-selected="yearsetted===2017">2017</option>
+														<option value="2018" ng-selected="yearsetted===2018">2018</option>
+														<option value="2019" ng-selected="yearsetted===2019">2019</option>
+														<option value="2020" ng-selected="yearsetted===2020">2020</option>
+														<option value="2021" ng-selected="yearsetted===2021">2021</option>
+														<option value="2022" ng-selected="yearsetted===2022">2022</option>
+													</select>
+												</div>
+												<div class="form-group">
+													<select class="form-control" ng-model="monthsetted">
+														<option value="">Month</option>
+														<option value="01" ng-selected="monthsetted==='01'">January</option>
+														<option value="02" ng-selected="monthsetted==='02'">February</option>
+														<option value="03" ng-selected="monthsetted==='03'">March</option>
+														<option value="04" ng-selected="monthsetted==='04'">April</option>
+														<option value="05" ng-selected="monthsetted==='05'">May</option>
+														<option value="06" ng-selected="monthsetted==='06'">June</option>
+														<option value="07" ng-selected="monthsetted==='07'">July</option>
+														<option value="08" ng-selected="monthsetted==='08'">August</option>
+														<option value="09" ng-selected="monthsetted==='09'">September</option>
+														<option value="10" ng-selected="monthsetted==='10'">October</option>
+														<option value="11" ng-selected="monthsetted==='11'">November</option>
+														<option value="12" ng-selected="monthsetted==='12'">December</option>
+													</select>
+												</div>
+												<div class="form-group">
+													<input type="number" ng-model="amountsetted" class="form-control" placeholder="Contribution">
+												</div>
+
+												<div class="form-group">
+													<div id="datepicker1" class="input-group date" data-provide="datepicker" data-date-format="yyyy-mm-dd" >
+														<input  class="form-control" placeholder="Deadline" type="date" ng-model="deadline"  id="deadline"/>
+														<span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+													</div>
+												</div>
+											</form>
+
+											<div class="thebottom" ng-click="SetmonthTable(yearsetted,monthsetted,amountsetted,deadline)" style="width:250px">
+												<a href=""><span><i class="fa fa-plus-square-o"></i> Create <span style="visibility: hidden" id="spinnermonthly"><img src="../images/spinner.gif" width="20" height="20"></span></span></a>
+											</div>
+										</div>
+										<div id="yeartab" class="tab-pane fade">
+											<form id="form_monthcontributionyear">
+												<div class="form-group">
+													<div class="alert alert-danger col-lg-12 col-md-12 col-sm-12 col-xs-12" id="isa_error_setmonthyear" style="text-align:left;display:none">
+														<strong> <i class="fa fa-times-circle"></i></strong><span id="isa_error_message_setmonthyear"></span>
+													</div>
+												</div>
+												<div class="form-group">
+													<div class="alert alert-success col-lg-12 col-md-12 col-sm-12 col-xs-12" id="isa_success_setmonthyear" style="text-align:left;display:none">
+														<span id="isa_success_message_setmonthyear"><img src="../images/spinner.gif" width="20" height="20"> Please wait...</span>
+													</div>
+												</div>
+												<div class="form-group">
+													<select class="form-control" ng-model="yearsettedyear">
+														<option value="">Year</option>
+														<option value="2016" ng-selected="yearsettedyear===2016">2016</option>
+														<option value="2017" ng-selected="yearsettedyear===2017">2017</option>
+														<option value="2018" ng-selected="yearsettedyear===2018">2018</option>
+														<option value="2019" ng-selected="yearsettedyear===2019">2019</option>
+														<option value="2020" ng-selected="yearsettedyear===2020">2020</option>
+														<option value="2021" ng-selected="yearsettedyear===2021">2021</option>
+														<option value="2022" ng-selected="yearsettedyear===2022">2022</option>
+													</select>
+												</div>
+												<div class="form-group">
+													<input type="number" ng-model="amountsettedyear" class="form-control" placeholder="Contribution">
+												</div>
+											</form>
+
+											<div class="thebottom" ng-click="SetmonthTableyear(yearsettedyear,amountsettedyear)" style="width: 250px">
+												<a href=""><span><i class="fa fa-plus-square-o"></i> Create <span style="visibility: hidden" id="spinneryearly"><img src="../images/spinner.gif" width="20" height="20"></span></span></a>
+											</div>
+										</div>
+									</div>
+
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default" data-dismiss="modal">
+									Close
+								</button>
+							</div>
+						</div>
+
+					</div>
+				</div>
+
+			</div>
+
+			<div class="container">
+				<div class="modal fade" id="add_budget_modal" role="dialog">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal">
+									&times;
+								</button>
+								<h4 class="modal-title"><b> <span class="glyphicon glyphicon-record"></span> Set the Budget</b></h4>
+							</div>
+							<div class="modal-body">
+								<div class="form-group">
+									<div class="alert alert-warning alert-dismissable" >
+										<button class="close" data-dismiss="alert" aria-label="close">
+											×
+										</button>
+										AVAILABLE CAPITAL : <strong>{{cooperativeCapital|currency:'frw ':0}}</strong>
+									</div>
+								</div>
+								<form>
+									<div class="form-group">
+										<input type="text" class="form-control" id="budget_name" ng-model="budget_name"  placeholder="Title eg. Transport">
+									</div>
+									<div class="form-group">
+										<select class="form-control" id="budgetmonthselected" ng-model="budgetmonthselected">
+											<option value="">MONTH</option>
+											<option value="01">January</option>
+											<option value="02">February</option>
+											<option value="03">March</option>
+											<option value="04">April</option>
+											<option value="05">May</option>
+											<option value="06">June</option>
+											<option value="07">July</option>
+											<option value="08">August</option>
+											<option value="09">September</option>
+											<option value="10">October</option>
+											<option value="11">November</option>
+											<option value="12">December</option>
+										</select>
+									</div>
+									<div class="form-group">
+										<select class="form-control" id="budgetyearselected" ng-model="budgetyearselected">
+											<option value="">YEAR</option>
+											<option value="2016">2016</option>
+											<option value="2017">2017</option>
+											<option value="2018">2018</option>
+										</select>
+									</div>
+									<div class="form-group">
+										<input type="text" class="form-control" id="budget_amount" ng-model="budget_amount" placeholder="Budget amount" />
+									</div>
+								</form>
+								<div class="form-group">
+									<div class="alert alert-danger col-lg-12 col-md-12 col-sm-12 col-xs-12" id="isa_error_budget" style="text-align:left;display:none">
+										<strong> <i class="fa fa-times-circle"></i></strong><span id="isa_error_message_budget"></span>
+									</div>
+									<div class="alert alert-success col-lg-12 col-md-12 col-sm-12 col-xs-12" id="isa_success_budget" style="text-align:left;display:none">
+										<strong> <i class="glyphicon glyphicon-ok-circle"></i></strong><span id="isa_success_message_budget"></span>
+									</div>
+								</div>
+							</div>
+							<div class="modal-footer clearfix">
+								<div class="thebottom col-md-5" ng-click="setMonthBudget(cooperativeCapital)" >
+									<a href=""><span><i class="fa fa-plus-square-o"></i> Set Budget </span></a>
+								</div>
+								<button type="button" class="btn btn-default" data-dismiss="modal">
+									Close
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="container">
+				<div class="modal fade" id="new_expense_modal" role="dialog">
+					<div class="modal-dialog ">
+						<div class="modal-content">
+							<div class="modal-header">
+
+								<button type="button" class="close" data-dismiss="modal">
+									&times;
+								</button>
+								<h4 class="modal-title"><b> <span class="glyphicon glyphicon-record" id="budg_name"></span> New expense for : {{budg_name}} </b></h4>
+							</div>
+							<div class="modal-body">
+								<form>
+
+									<div class="form-group">
+										<div class="alert alert-warning alert-dismissable">
+											<button class="close" data-dismiss="alert" aria-label="close">
+												×
+											</button>
+											Remaining amount is <strong>{{budg_remain|currency:'frw ':0}}</strong>
+										</div>
+									</div>
+									<div class="form-group">
+										<input type="text" class="form-control" id="exp_amount"  placeholder="New expense Amount (frw)">
+									</div>
+									<div class="form-group">
+										<textarea class="form-control" id="exp_descr"  rows="5" placeholder="Description&hellip;"></textarea>
+									</div>
+									<div class="form-group">
+										<div class="alert alert-danger col-lg-12 col-md-12 col-sm-12 col-xs-12" id="isa_error_expense" style="text-align:left;display:none">
+											<strong> <i class="fa fa-times-circle"></i></strong><span id="isa_error_message_expense"></span>
+										</div>
+										<div class="alert alert-success col-lg-12 col-md-12 col-sm-12 col-xs-12" id="isa_success_expense" style="text-align:left;display:none">
+											<strong> <i class="glyphicon glyphicon-ok-circle"></i></strong><span id="isa_success_message_expense"></span>
+										</div>
+									</div>
+								</form>
+							</div>
+
+							<div class="modal-footer">
+								<div class="thebottom col-md-5" ng-click="registNewExpense(mybudgetobj.id,mybudgetobj.budgetname,budg_remain,mybudgetobj.budgetyear,mybudgetobj.budgetmonth)" >
+									<a href=""><span><i class="glyphicon glyphicon-saved"></i> New Expense </span></a>
+								</div>
+								<button type="button" class="btn btn-default" data-dismiss="modal">
+									Close
+								</button>
+							</div>
+						</div>
+
+					</div>
+				</div>
+
+			</div>
+
+			<div class="container">
+				<div class="modal fade" id="set_interest_modal" role="dialog">
+					<div class="modal-dialog modal-sm">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal">
+									&times;
+								</button>
+								<h4 class="modal-title"><b> <span class="glyphicon glyphicon-record"></span> Set the Interest</b></h4>
+							</div>
+							<div class="modal-body">
+								<form>
+									<h4 id="now_interst">Actual Interest is:<span style="color: red">&nbsp;{{interest_perc}} %</span></h4>
+									<table>
+										<tr>
+											<td>
+											<input type="number" class="form-control" placeholder="%" id="interest_perc" >
+											</td>
+											<td></td>
+										</tr>
+									</table>
+
+								</form>
+								<div class="form-group">
+									<div class="alert alert-danger col-lg-12 col-md-12 col-sm-12 col-xs-12" id="isa_error_interest" style="text-align:left;display:none">
+										<strong> <i class="fa fa-times-circle"></i></strong><span id="isa_error_message_interest"></span>
+									</div>
+									<div class="alert alert-success col-lg-12 col-md-12 col-sm-12 col-xs-12" id="isa_success_interest" style="text-align:left;display:none">
+										<strong> <i class="glyphicon glyphicon-ok-circle"></i></strong><span id="isa_success_message_interest"></span>
+									</div>
+								</div>
+							</div>
+							<div class="modal-footer clearfix">
+
+								<a href="" class="btn btn-primary pull-left" ng-click="addInterest()"><span><i class="fa fa-edit"></i> Edit Interest </span></a>
+
+								<button type="button" class="btn btn-default" data-dismiss="modal">
+									Close
+								</button>
+							</div>
+						</div>
+
+					</div>
+				</div>
+
+			</div>
+
+			<div class="container">
+				<div class="modal fade" id="disaproveModal" role="dialog">
+					<div class="modal-dialog modal-sm">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal">
+									&times;
+								</button>
+								<h4 class="modal-title"><b> <span class="glyphicon glyphicon-record"></span> Disprove this Request</b></h4>
+							</div>
+							<div class="modal-body">
+								<form>
+
+									<div class="form-group">
+										<textarea class="form-control" placeholder="reason..." ng-model="reason_disprove"></textarea>
+									</div>
+								</form>
+								<div class="form-group">
+									<div class="alert alert-danger col-lg-12 col-md-12 col-sm-12 col-xs-12" id="isa_error_dis" style="text-align:left;display:none">
+										<strong> <i class="fa fa-times-circle"></i></strong><span id="isa_error_message_dis"></span>
+									</div>
+									<div class="alert alert-success col-lg-12 col-md-12 col-sm-12 col-xs-12" id="isa_success_dis" style="text-align:left;display:none">
+										<strong> <i class="glyphicon glyphicon-ok-circle"></i></strong><span id="isa_success_message_dis"></span>
+									</div>
+								</div>
+							</div>
+							<div class="modal-footer clearfix">
+								<a href="" class="btn btn-primary pull-left" ng-click="Disaprove(requestes.id,requestes.memberid,reason_disprove)"><span><i class="fa fa-edit"></i> Disaprove </span></a>
+								<button type="button" class="btn btn-default" data-dismiss="modal">
+									Close
+								</button>
+							</div>
+						</div>
+
+					</div>
+				</div>
+
+			</div>
+
+			<div class="container">
+				<div class="modal fade" id="suspendModal" role="dialog">
+					<div class="modal-dialog modal-sm">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal">
+									&times;
+								</button>
+								<h4 class="modal-title"><b> <span class="glyphicon glyphicon-record"></span> Suspend this request</b></h4>
+							</div>
+							<div class="modal-body">
+								<form>
+									<div class="form-group">
+										<div id="datepicker2" class="input-group date" data-provide="datepicker" data-date-format="yyyy-mm-dd" >
+											<input  class="form-control" placeholder="Deadline" type="date" ng-model="requestes.paybackdate" />
+											<span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+										</div>
+									</div>
+									<div class="form-group">
+										<textarea class="form-control" placeholder="reason..." ng-model="reason_suspend"></textarea>
+									</div>
+								</form>
+								<div class="form-group">
+									<div class="alert alert-danger col-lg-12 col-md-12 col-sm-12 col-xs-12" id="isa_error_sup" style="text-align:left;display:none">
+										<strong> <i class="fa fa-times-circle"></i></strong><span id="isa_error_message_sup"></span>
+									</div>
+									<div class="alert alert-success col-lg-12 col-md-12 col-sm-12 col-xs-12" id="isa_success_sup" style="text-align:left;display:none">
+										<strong> <i class="glyphicon glyphicon-ok-circle"></i></strong><span id="isa_success_message_sup"></span>
+									</div>
+								</div>
+							</div>
+							<div class="modal-footer clearfix">
+								<a href="" class="btn btn-primary pull-left" ng-click="Suspend(requestes.id,requestes.memberid,reason_suspend,requestes.paybackdate)"><span><i class="fa fa-edit"></i> Suspend </span></a>
+								<button type="button" class="btn btn-default" data-dismiss="modal">
+									Close
+								</button>
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+
+			<div class="container">
+				<div class="modal fade" id="{{mycorresponded}}" role="dialog">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal">
+									&times;
+								</button>
+								<h4 class="modal-title "><b> <span class="glyphicon glyphicon-record"></span> History of {{memberHistname}}</b></h4>
+							</div>
+							<div class="modal-body">
+								<div>
+									<div class="form-group" style="width: 150px">
+										<select class="form-control input-sm" ng-model="historyprogresscontribution">
+											<option value="">All</option>
+											<option value="0">Not payed</option>
+											<option value="1">In-progress</option>
+											<option value="2">Payed</option>
+										</select>
+									</div>
+									<table class="table-condensed table-bordered table-responsive" style="width:100%">
+										<thead >
+											<th>Month</th>
+											<th>Payed</th>
+											<th>Remaining</th>
+											<th>Total</th>
+											<th>Status</th>
+										</thead>
+										<tbody class="tbody-height" style="color:gray;">
+											<tr ng-repeat="histo in myhist|filter:{status:historyprogresscontribution||undefined}:true" ng-class='histo.remaining === "0" ? "bg-success" : (histo.remaining === histo.total ? "bg-danger" : "bg-warning")' style="cursor: pointer">
+												<td>{{histo.month}} {{histo.year}}</td>
+												<td>{{histo.amount}}</td>
+												<td>{{histo.remaining}}</td>
+												<td>{{histo.total}}</td>
+												<td><span ng-if="histo.remaining === '0'">Payed</span><span ng-if="histo.remaining === histo.total">Not payed</span><span ng-if="histo.remaining !== '0' && histo.remaining !== histo.total">In progress</span></td>
+											</tr>
+
+										</tbody>
+									</table>
+								</div>
+							</div>
+							<div class="modal-footer clearfix">
+								<button type="button" class="btn btn-default" data-dismiss="modal">
+									Close
+								</button>
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+
+			<div class="container">
+				<div class="modal fade" id="income_name_modal" role="dialog">
+					<div class="modal-dialog modal-sm">
+						<div class="modal-content">
+							<div class="modal-header">
+
+								<button type="button" class="close" data-dismiss="modal">
+									&times;
+								</button>
+								<h4 class="modal-title "><b> <span class="glyphicon glyphicon-record"></span> Add Income Name</b></h4>
+
+							</div>
+							<div class="modal-body">
+								<div class="form-group">
+									<input class="form-control" id="root_income_name" placeholder="Income Name" />
+								</div>
+								<div class="form-group">
+									<div class="alert alert-danger col-lg-12 col-md-12 col-sm-12 col-xs-12" id="isa_error_root_income" style="text-align:left;display:none">
+										<strong> <i class="fa fa-times-circle"></i></strong><span id="isa_error_message_root_income"></span>
+									</div>
+									<div class="alert alert-success col-lg-12 col-md-12 col-sm-12 col-xs-12" id="isa_success_root_income" style="text-align:left;display:none">
+										<strong> <i class="glyphicon glyphicon-ok-circle"></i></strong><span id="isa_success_message_root_income"></span>
+									</div>
+								</div>
+							</div>
+							<div class="modal-footer clearfix">
+								<button type="button" class="btn btn-primary pull-left" ng-click="addIncome()">
+									<i class="fa fa-plus"></i> Add
+								</button>
+								<button type="button" class="btn btn-default" data-dismiss="modal">
+									Close
+								</button>
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+
+			<div class="container">
+				<div class="modal fade" id="checkout" role="dialog">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal">
+									&times;
+								</button>
+								<h4 class="modal-title"><b> <span class="glyphicon glyphicon-record"></span>Not payed Contribution </b></h4>
+							</div>
+							<div class="modal-body">
+								<div style="border-bottom: 1px solid #BB260D;margin-bottom: 4px">
+									<h5 style="color: #BB260D"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Pending Contribution</h5>
+								</div>
+								<br>
+								<div style="height: 200px;overflow-y: auto;font-size:85%">
+									<div class="form-group" style="width: 150px">
+										<select class="form-control input-sm" ng-model="historyprogresscontribution_">
+											<option value="">All</option>
+											<option value="0">Not payed</option>
+											<option value="1">In-progress</option>
+										</select>
+									</div>
+									<table class="table table-bordered table-striped">
+										<thead>
+											<th>Date</th>
+											<th>Amount Total</th>
+											<th>Amount not payed</th>
+										</thead>
+										<tbody>
+											<tr ng-repeat="memberhistory in memberhistory_list|filter:{status:historyprogresscontribution_||undefined}:true"  ng-class="{'bg-success' : memberhistory.total===memberhistory.remaining,'bg-warning': memberhistory.total!=memberhistory.remaining}">
+												<td>{{memberhistory.month}} {{history.year}}</td>
+												<td>{{memberhistory.total}}</td>
+												<td>{{memberhistory.remaining}}</td>
+											</tr>
+											<tr ng-show="memberhistory_list.length==0">
+												<td colspan="3"><i>No Pending contribution</i></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="container">
+				<div class="modal fade" id="{{contrib_historic_modal}}" role="dialog">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal">
+									&times;
+								</button>
+								<h4 class="modal-title"><b> <span class="glyphicon glyphicon-record"></span>Historic expense </b></h4>
+							</div>
+							<div class="modal-body">
+								<div style="height: 200px; font-size:85%">
+									<table class="table table-bordered table-striped">
+										<thead>
+											<th>Date</th>
+											<th>Expense</th>
+											<th>Operator</th>
+											<th>Reason</th>
+
+										</thead>
+										<tbody>
+											<tr dir-paginate="budg_hist in myhistorybudget_|itemsPerPage:3" pagination-id="budg_hist_page">
+												<td>{{budg_hist.h_date}}</td>
+												<td>{{budg_hist.h_amount}}</td>
+												<td>{{budg_hist.h_email}}</td>
+												<td>{{budg_hist.h_desc}}</td>
+
+											</tr>
+											<tr >
+												<td colspan="4" ng-show="myhistorybudget_.length===0"><i>No Pending contribution</i></td>
+											</tr>
+										</tbody>
+									</table>
+									<div class="btn-group pull-right">
+										<dir-pagination-controls pagination-id="budg_hist_page"></dir-pagination-controls>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="container">
+				<div class="modal fade" id="{{sub_incoome}}" role="dialog">
+					<div class="modal-dialog modal-lg">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal">
+									&times;
+								</button>
+								<h4 class="modal-title "><b> <span class="glyphicon glyphicon-record"></span> Income details for {{my_pop_name}} </b></h4>
+							</div>
+							<div class="modal-body">
+								<div>
+								<table class="table-condensed table-bordered table-responsive" style="width:100%">
+									<thead >
+										<th>Name</th>
+										<th>Responsible</th>
+										<th>Responsible Phone</th>
+										<th>Payment</th>
+										<th>Type</th>
+										<th>Location</th>
+										<th>Description</th>
+										<th style="width:80px">Status</th>
+										<th>Action</th>
+									</thead>
+									<tbody  style="color:gray;">
+										<tr dir-paginate="my_sub in mysub_income|itemsPerPage:10" style="cursor: pointer" pagination-id="view_subincome_pop_page" >
+											<td> <input type="text" class="form-control input-sm" ng-model="my_sub.name" id="input_subIncomeName{{$index}}" disabled/> </td>
+											<td> <input type="text" class="form-control input-sm" ng-model="my_sub.responsable" id="input_subIncomeresponsable{{$index}}" disabled/> </td>
+											<td><input type="text" class="form-control input-sm" ng-model="my_sub.phone" id="input_subIncomephone{{$index}}" disabled/></td>
+											<td> <input type="text" class="form-control input-sm" ng-model="my_sub.payment" id="input_subIncomepayment{{$index}}" disabled/></td>
+											<td style="width:120px">
+												<select class="form-control input-sm" ng-model="my_sub.type_name">
+												<option value="Monthly" ng-selected="my_sub.type_name==='Monthly'">Monthly</option>
+												<option value="Weekly" ng-selected="my_sub.type_name==='Weekly'">Weekly</option>
+												<option value="Daily" ng-selected="my_sub.type_name==='Daily'">Daily</option>
+												<option value="Irregular" ng-selected="my_sub.type_name==='Irregular'">Irregular</option>
+											</select>
+												</td>
+											<td> <input type="text" class="form-control input-sm" ng-model="my_sub.location" id="input_subIncomelocation{{$index}}" disabled/></td>
+											<td><input type="text" class="form-control input-sm" ng-model="my_sub.description" id="input_subIncomedescription{{$index}}" disabled/></td>
+											<td>
+											<div class="btn-group" id="status" data-toggle="buttons">
+												<label class="btn btn-default btn-on btn-xs" ng-class='{
+												"active": my_sub.status == "1"}' ng-click="editSubIncomeStatus(my_sub.status,my_sub.id,my_pop_name)" >
+													<input type="radio" value="1" name="multifeatured_module[module_id][status]" checked="checked" >
+													ON</label>
+												<label class="btn btn-default btn-off btn-xs" ng-class='{
+												"active": my_sub.status == "0"}' ng-click="editSubIncomeStatus(my_sub.status,my_sub.id,my_pop_name)">
+													<input type="radio" value="0" name="multifeatured_module[module_id][status]" >
+													OFF</label>
+											</div>
+											</td>
+											<td>
+												<i class="fa fa-pencil text-yellow" ng-click="editAllSubIncome('input_subIncomeName'+$index,'input_subIncomeresponsable'+$index,'input_subIncomephone'+$index,'input_subIncomepayment'+$index,'input_subIncomelocation'+$index,'input_subIncomedescription'+$index)"></i>
+												<i class="fa fa-floppy-o text-black" ng-click="editAllSubIncomeSave(my_pop_name,my_sub.id,my_sub.name,my_sub.responsable,my_sub.phone,my_sub.payment,my_sub.location,my_sub.description,'input_subIncomeName'+$index,'input_subIncomeresponsable'+$index,'input_subIncomephone'+$index,'input_subIncomepayment'+$index,'input_subIncomelocation'+$index,'input_subIncomedescription'+$index)"></i>
+												
+											</td>
+										</tr>
+										
+									</tbody>
+								</table>
+								<div class="btn-group pull-left" >
+									<dir-pagination-controls pagination-id="view_subincome_pop_page"></dir-pagination-controls>
+								</div>
+
+							</div>
+						</div>
+						<div class="modal-footer ">
+							<button type="button" class="btn btn-default" data-dismiss="modal">
+								Close
+							</button>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+		<div class="container">
+			<div class="modal fade" id="{{budget_edit_modal}}" role="dialog">
+				<div class="modal-dialog ">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">
+								&times;
+							</button>
+							<h4 class="modal-title "><b> <span class="glyphicon glyphicon-record"></span> Budget Name : {{name_edit_budget}} </b></h4>
+						</div>
+						<div class="modal-body">
+							<div class="alert alert-warning alert-dismissable">
+								<button class="close" data-dismiss="alert" aria-label="close">
+									×
+								</button>
+								Budget amount is <strong>{{budget_edit_amount|currency:'frw ':0}}</strong>
+							</div>
+
+							<div class="form-group">
+								<input type="text" class="form-control" ng-model="new_budget" placeholder="Amount to increment or decrement (frw)"/>
+							</div>
+							<div class="alert alert-danger col-md-12" id="isa_error_edit_budget" style="text-align:left;display:none">
+								<strong> <i class="fa fa-times-circle"></i></strong><span id="isa_error_message_edit_budget"></span>
+							</div>
+							<div class="alert alert-success col-lg-12 col-md-12 col-sm-12 col-xs-12" id="isa_success_edit_budget" style="text-align:left;display:none">
+								<span id="isa_success_message_edit_budget"></span>
+							</div>
+						</div>
+						<div class="modal-footer clearfix">
+							<button type="button" class="btn btn-success pull-left" ng-click="amountToIncrementOnBudget(budget_edit_id,new_budget,'increment',budget_edit_amount,budget_edit_year,budget_edit_month)" >
+								<i class="fa fa-sort-amount-asc"></i> Increment
+							</button>
+							<button type="button" class="btn btn-danger pull-left" ng-click="amountToIncrementOnBudget(budget_edit_id,new_budget,'decrement',budget_edit_amount,budget_edit_year,budget_edit_month)" >
+								<i class="fa fa-sort-amount-desc"></i> Decrement
+							</button>
+							<button type="button" class="btn btn-default" data-dismiss="modal">
+								Close
+							</button>
+						</div>
+						
+					</div>
+
+				</div>
+			</div>
+		</div>
+		
+		</div>
+		<script src="../js/jquery.js"></script>
+		<script src="../js/bootstrap.js"></script>
+		<script src="../js/bootstrap-datepicker.min.js"></script>
+		<script src="../js/angular.min.js"></script>
+		<script src="../js/application.js"></script>
+		<script src="../js/services.js"></script>
+		<script src="../js/dirPagination.js"></script>
+		<script src="../js/jquery.toaster.js"></script>
+		<script src="../js/SimpleAjaxUploader.js"></script>
+		<script src="../js/sweetalert.min.js"></script>
+		<script type="text/javascript">
+			$(document).on('click', '.dropdown-menu', function(e) {
+				if ($(this).hasClass('keep-open-on-click')) {
+					e.stopPropagation();
+				}
+			});
+		</script>
+		<script type="text/javascript">
+			$(function() {
+				$('a[title]').tooltip();
+			});
+		</script>
+		<script>
+			$(document).ready(function() {
+				$("#fees_link_id").click(function() {
+					$("#fees_content").show();
+					$("#budget_content").hide();
+					$("#loan_content").hide();
+					$("#income_content").hide();
+				});
+
+				$("#budget_link_id").click(function() {
+					$("#budget_content").show();
+					$("#fees_content").hide();
+					$("#loan_content").hide();
+					$("#income_content").hide();
+
+				});
+
+				$("#loan_link_id").click(function() {
+					$("#loan_content").show();
+					$("#fees_content").hide();
+					$("#budget_content").hide();
+					$("#income_content").hide();
+
+				});
+				$("#income_link_id").click(function() {
+					$("#income_content").show();
+					$("#loan_content").hide();
+					$("#fees_content").hide();
+					$("#budget_content").hide();
+
+				});
+
+			});
+		</script>
+
+	</body>
+</html>

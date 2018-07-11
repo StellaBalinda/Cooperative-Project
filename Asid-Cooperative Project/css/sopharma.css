@@ -1,0 +1,229 @@
+
+.bg{
+	background:#f0f0f0; 
+}
+.form-horizontal .control-label{
+	text-align:left;
+}
+.masthead{
+  margin-top: 150px;
+}
+.pic{
+  margin-bottom: 80px;
+}
+.btnlogin{
+  width: 30%;
+  background: #277A9C;
+  color: #fff;
+  border-radius: 0;
+}
+.footer_login{
+  border-top: 1px solid #aaaaaa;
+  margin-top: 100px;
+  padding:15px;
+  font-family:'Open Sans',Arial,sans-serif;
+  font-size: 15px;
+  color: #909090;
+  position: absolute;
+  bottom: 0px;
+}
+.usernames,.pass{
+   text-align:center;
+   border: none;
+  border-bottom:1px solid  #277A9C; 
+  box-shadow: none;
+  outline: none;
+  border-radius: 0;
+  background: #dddddd;
+  background-color: transparent;
+}
+.forgot a{
+	color:#909090;
+}
+.forgot a:hover{
+	color:#277A9C;
+	text-decoration:none; 
+}
+.headers{
+   -webkit-box-shadow: 0 2px 5px #aaa;
+  -moz-box-shadow: 0 2px 5px #aaa;
+  box-shadow: 0 2px 5px #aaa;
+  width: 100%;
+  height: 90px;
+  margin-bottom: 7px;
+}
+.logout a{
+  color:#909090;
+}
+.logout a:hover{
+  color:#277A9C;
+  text-decoration:none; 
+}
+.sidebar{
+  width:100%; 
+  position: absolute;
+  top: 110px;
+
+}
+.sidebar-menu .active{
+ /* border-left: 3px solid #909090;*/
+  background: #277A9C;
+  color:#fff; 
+}
+.sidebar-menu .active a{
+  color:#fff;  
+}
+.sidebar-menu .active:hover{
+  border-left: 0px solid #277A9C;
+ /* background: #909090; */
+  color:#fff;
+}
+.sidebar-menu a:hover{
+  border-left: 5px solid #909090;
+  /*background: #909090;*/
+  color:#fff; 
+}
+.sidebar-menu .active a:hover{
+  background: #909090;
+  color:#fff;
+  
+}
+
+.footer_other{
+  border-top: 1px solid #aaaaaa;
+  padding:15px;
+  font-family:'Open Sans',Arial,sans-serif;
+  font-size: 10px;
+  color: #909090;
+  width: 100%;
+    position: absolute;
+top: 500px;
+}
+.mycontent{
+     -webkit-box-shadow:  -5px -5px 5px  #ccc;
+  -moz-box-shadow:  -5px -5px 5px #ccc;
+  box-shadow:  -5px -5px 5px #ccc;
+  margin:10px;
+  height: 560px;
+}
+.nav-tabs{  /* it colors all nav-tabs */
+  background-color:#f0f0f0;
+}
+.tab-content{
+    background-color:#f0f0f0;
+    color:#909090;
+}
+a {  /*  all links are colored */
+  color: #999999;
+}
+.nav-tabs > li > a{
+  border-radius: 0;
+  padding: 8px 50px;
+  border:0px;
+}
+.nav-tabs > li > a:hover, .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover  {
+background-color:#F0F0F0;	
+color:#277A9C;
+border: 0px;
+border-bottom:2px solid  #277A9C;
+}
+.nav .nav-tabs > li > a:focus {
+background-color:#F0F0F0;	
+color:#277A9C;
+border: 0px;
+border-bottom:1px solid  #277A9C;	
+}
+.nav .nav-tabs > li.active > a {
+background-color:#F0F0F0;
+color:#277A9C;
+border: 0px;
+border-bottom:1px solid  #277A9C;
+
+}
+.sidebar-menu .treeview a:hover{  /* this is side-menu when hover background change */
+	background-color:#277A9C;
+}
+table tbody{
+	background: #FFFFFF;
+	font-size:13px;
+}
+table thead{
+	color:#FFFFFF;
+	font-size:13px;
+}
+tbody .form-control{
+		height: 30px;
+	}
+.span-right{
+	margin-right:25px;
+	color:#277A9C;
+}
+.panel-body span {
+	/*width:30px; */  /* byananiye mbaye mbiretse */
+}
+#btn_next{
+	background-color: #277A9C; 
+	color: #f0f0f0; 
+	width: 20%;
+	color:#FFFFFF;
+}
+
+.glyphicon glyphicon-search{
+	background-color: #277A9C;
+	color: #FFFFFF; 
+	width: 15%; 
+	height: 30px; 
+	text-align: 
+	center; 
+	padding: 5px;
+}
+
+/* after the first review with Damien  */
+
+/* sales page  */
+html body{
+	/*font-family: din;*/
+}
+.form-horizontal .control-label{
+	font-weight:100;
+}
+table thead tfoot{
+	background: #277A9C;
+	font-family: din;
+}
+#salesInsured-beforeNext{
+	padding: 30px;
+}
+/*
+#salesInsured-beforeNext .form-control:focus{
+	border:2px solid #DDDDDD;
+}*/
+.panel, .panel-heading, .panel-body{
+	border-radius:0px;
+}
+/*  this is applied to all .btn and .panel */
+.btn, .panel{
+	border-radius:0px;
+}
+/*  this is mainly applied to <p> in panels on sales page */
+.panel p{
+	margin-bottom: 6px;
+	font-family:din;
+}
+.panel-body.form-horizontal.form-control:focus , .form-horizontal.form-control:focus, .form-control:focus, tbody .form-control:focus{
+		border-color: #d2d6de !important;
+		box-shadow: red !important;		
+	}
+	
+/* PURCHASE */
+#purchase-content{
+	background-color: #F0F0F0; 
+	color:#999999;
+	padding: 3%;
+	margin: 15px 15px 15px 15px;  
+}
+
+#add_project_modal .modal-header, #add_project_btn{
+  background-color: #277A9C;
+  color: #fff;
+}

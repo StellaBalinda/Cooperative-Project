@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<!-- Copyright (c) 2016, Mbishinzemungu Tuyisenge Stella. All rights reserved. -->
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>SMART-COOPERATIVE|HOME</title>
+		<link href="../font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" >
+		<link href="../fonts/glyphicons-halflings-regular.woff" rel="stylesheet" >
+		<link href="../css/bootstrap.min.css" rel="stylesheet">
+		<link href="../css/bootstrap-datepicker3.min.css"  rel="stylesheet"/>
+		<link href="../css/AdminLTE.css" rel="stylesheet">
+		<link href="../css/asid.css" rel="stylesheet">
+		<link href="../css/landing.css" rel="stylesheet">
+	</head>
+	<body class="bg" style="background: #fff" ng-app="myAsid" ng-controller="ctr_landing" ng-init="startlanding('btnuploader','<?php echo $username;?>')">
+		<div class="wrapper" >
+			<header class="main-header headers">
+				<a href="#" class="logo"> <span class="logo-lg" ><img src="../images/logo.png" height="50px" width="200px"></span> </a>
+				<div class="pull-right logout" >
+					<a href="" ng-click="logout()"> <i class="fa fa-sign-out fa-lg" aria-hidden="true"></i> <!-- <span class=""></span> Logout</a> -->
+				</div>
+				<div class="navbar-custom-menu pull-right" style="margin-top:-25px;">
+					<ul class="nav navbar-nav" >
+
+						<li class="dropdown user user-menu" >
+							<a href="" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <img src="../{{member_profile.profile}}" class="user-image" alt="User Image"> <?php echo $username; ?> </a>
+
+						</li>
+					</ul>
+				</div>
+				<div class="pull-right">
+					<button id="btnuploader" ng-click="uploadProfile('btnuploader','<?php echo $username;?>')" class="btn btn-primary btn-flat" style="margin-top: 16px">
+						<i class="fa fa-upload" aria-hidden="true"></i> Upload profile
+					</button>
+					<div id="progressOuter2" class="progress progress-striped active" style="display:none;">
+						<div id="progressBar2" class="progress-bar progress-bar-success"  role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
+					</div>
+				</div>
+
+			</header>
+		</div>
+		<div class="container">
+			<div class="row" >
+				<nav class="navbar navbar-default navbar-inverse" style="margin-top: -14px">
+					<div class="container">
+						<div class="row">
+							<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+								<ul class="nav navbar-nav">
+									<li class="active">
+										<a data-toggle="tab" href="#home">HOME</a>
+									</li>
+									<li>
+										<a data-toggle="tab" href="#finance"> FINANCE <span style="color:green"><i class="fa fa-bell"></i></span></a>
+									</li>
+									<li ng-click="networks('<?php echo $username;?>')">
+										<a data-toggle="tab" href="#communication">COMMUNICATION</a>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</nav>
+			</div>
+			<div class="row">
+				<div class="tab-content" style="background: #fff;">
+					<div id="home" class="tab-pane fade in active">
+						<div class="row">
+							<div class="col-md-3">
+								<div class="box box-primary box-solid box-height">
+									<div class="box-header with-border">
+										<h3 class="box-title">Cooperative Members</h3>
+										<div class="box-tools pull-right">
+											<button type="button" class="btn btn-box-tool" data-widget="collapse">
+												<i class="fa fa-minus"></i>
+											</button>
+										</div>
+									</div>
+									<div class="box-body" >
+										<center>
+											<table>
+												<tr>
+													<td colspan="3">&nbsp;</td>
+												</tr>
+												<tr>
+													<td>Total Member</td><td>&nbsp;&nbsp;:&nbsp;&nbsp;</td><td><b>{{membercount}}</b> members</td>
+												</tr>
+												<tr>
+													<td colspan="3">&nbsp;</td>
+												</tr>
+												<tr>
+													<td>Females</td><td>&nbsp;&nbsp;:&nbsp;&nbsp;</td><td><b>{{countFemale}}</b> members</td>
+												</tr>
+												<tr>
+													<td colspan="3">&nbsp;</td>
+												</tr>
+												<tr>
+													<td>Males</td><td>&nbsp;&nbsp;:&nbsp;&nbsp;</td><td><b>{{countMale}}</b> members</td>
+												</tr>
+											</table>
+										</center>
+									</div>
+								</div>
+							</div>
+
+							<div class="col-md-6">
+								<div class="box box-primary box-solid box-height">
+									<div class="box-header with-border">
+										<h3 class="box-title">Finance status</h3>
+										<div class="box-tools pull-right">
+											<button type="button" class="btn btn-box-tool" data-widget="collapse">
+												<i class="fa fa-minus"></i>
+											</button>
+										</div>
+									</div>
+									<div class="box-body">
+										<div class="col-md-8">
+											<table>
+												<tr>
+													<td>Total</td><td>&nbsp;&nbsp;:&nbsp;&nbsp;</td><td>200,000 frws</td>
+												</tr>
+												<tr>
+													<td valign="top">Months payed</td><td>&nbsp;&nbsp;:&nbsp;&nbsp;</td><td>
+													<div>
+														<table>
+															<tr>
+																<th>Month</th>
+																<th>&nbsp;</th>
+																<th>Cash</th>
+															</tr>
+															<tr>
+																<td>2016-january</td><td>&nbsp;</td><td>frws 2500</td>
+															</tr>
+															<tr>
+																<td>2016-january</td><td>&nbsp;</td><td>frws 2500</td>
+															</tr>
+															<tr>
+																<td>2016-january</td><td>&nbsp;</td><td>frws 2500</td>
+															</tr>
+															<tr>
+																<td>2016-january</td><td>&nbsp;</td><td>frws 2500</td>
+															</tr>
+														</table>
+													</div></td>
+												</tr>
+												<tr>
+													<td>Month Status</td><td>&nbsp;&nbsp;:&nbsp;&nbsp;</td><td>Payed</td>
+												</tr>
+											</table>
+										</div>
+										<div class="col-md-4">
+											<center>
+												<div style="font-size: 86px">
+													<i class="fa fa-line-chart"></i>
+												</div>
+											</center>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-3">
+								<center>
+									<h4><b>{{didyouknow.title}}</b></h4>
+								</center>
+								<p>
+									{{didyouknow.description}}
+								</p>
+								<small class="pull-right text-primary"><span style="color:gray">Added by : </span><i>{{didyouknow.author}}</i></small>
+								<br>
+								<small class="pull-right text-primary"><span style="color:gray">On : </span><i>{{didyouknow.publisheddate}}</i></small>
+
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-12">
+								<div class="panel panel-primary">
+									<div class="panel-heading">
+										<h3 class="panel-title">Marketing Place</h3>
+										<span class="pull-right"> <!-- Tabs -->
+											<ul class="nav panel-tabs">
+												<li class="active">
+													<a href="#tab1" data-toggle="tab">Kimironko</a>
+												</li>
+												<li>
+													<a href="#tab2" data-toggle="tab">Gasabo</a>
+												</li>
+												<li>
+													<a href="#tab3" data-toggle="tab">Remera</a>
+												</li>
+												<li>
+													<a href="#tab4" data-toggle="tab">Kicukiro</a>
+												</li>
+											</ul> </span>
+									</div>
+									<div class="panel-body">
+										<div class="tab-content">
+											<div class="tab-pane active" id="tab1">
+												<table class="table table-hover" >
+													<tr style="background:gray">
+														<th>Product</th>
+														<th>Quantity</th>
+														<th>Price</th>
+													</tr>
+													<tr>
+														<td>ibigori</td>
+														<td>1kg</td>
+														<td>1000frws</td>
+													</tr>
+													<tr>
+														<td>ibigori</td>
+														<td>1kg</td>
+														<td>1000frws</td>
+													</tr>
+													<tr>
+														<td>ibigori</td>
+														<td>1kg</td>
+														<td>1000frws</td>
+													</tr>
+													<tr>
+														<td>ibirayi</td>
+														<td>1kg</td>
+														<td>1000frws</td>
+													</tr>
+
+												</table>
+											</div>
+											<div class="tab-pane" id="tab2">
+												<table class="table table-hover" >
+													<tr style="background:gray">
+														<th>Product</th>
+														<th>Quantity</th>
+														<th>Price</th>
+													</tr>
+													<tr>
+														<td>ubugari</td>
+														<td>1kg</td>
+														<td>1000frws</td>
+													</tr>
+													<tr>
+														<td>ibijumba</td>
+														<td>1kg</td>
+														<td>1000frws</td>
+													</tr>
+													<tr>
+														<td>ibisheke</td>
+														<td>1kg</td>
+														<td>1000frws</td>
+													</tr>
+													<tr>
+														<td>isosi</td>
+														<td>1kg</td>
+														<td>1000frws</td>
+													</tr>
+
+												</table>
+											</div>
+											<div class="tab-pane" id="tab3">
+												<table class="table table-hover" >
+													<tr style="background:gray">
+														<th>Product</th>
+														<th>Quantity</th>
+														<th>Price</th>
+													</tr>
+													<tr>
+														<td>rice</td>
+														<td>1kg</td>
+														<td>1000frws</td>
+													</tr>
+													<tr>
+														<td>ibishyinmbo</td>
+														<td>1kg</td>
+														<td>1000frws</td>
+													</tr>
+													<tr>
+														<td>ibitoki</td>
+														<td>1kg</td>
+														<td>1000frws</td>
+													</tr>
+													<tr>
+														<td>amajeri</td>
+														<td>1kg</td>
+														<td>1000frws</td>
+													</tr>
+
+												</table>
+											</div>
+											<div class="tab-pane" id="tab4">
+												<table class="table table-hover" >
+													<tr style="background:gray">
+														<th>Product</th>
+														<th>Quantity</th>
+														<th>Price</th>
+													</tr>
+													<tr>
+														<td>karoti</td>
+														<td>1kg</td>
+														<td>1000frws</td>
+													</tr>
+													<tr>
+														<td>imboga</td>
+														<td>1kg</td>
+														<td>1000frws</td>
+													</tr>
+													<tr>
+														<td>intoryi</td>
+														<td>1kg</td>
+														<td>1000frws</td>
+													</tr>
+													<tr>
+														<td>ibitunguru</td>
+														<td>1kg</td>
+														<td>1000frws</td>
+													</tr>
+												</table>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div id="finance" class="tab-pane fade">
+						<div class="col-lg-6">
+							<form id="memberLoanReq_form">
+								<div class="form-group">
+
+									<select class="form-control" id="request_title" ng-model="request_title">
+										<option value="">Type</option>
+										<option value="Kwiguriza mutuel">Kwiguriza mutuel</option>
+										<option value="Kwiguriza amafaranga asanzwe">Kwiguriza amafaranga asanzwe</option>
+										<option value="Kwiguriza amafaranga y'abana kwishuli">Kwiguriza amafaranga y'abana kwishuli</option>
+										<option value="Kwiguriza amafaranga yo kwivuza">Kwiguriza amafaranga yo kwivuza</option>
+
+									</select>
+								</div>
+								<div class="form-group">
+									<input type="text" class="form-control" placeholder="Amount" id="request_amount" ng-model="request_amount"  />
+								</div>
+								<div class="form-group">
+									<textarea class="form-control" placeholder="Impamvu" id="request_description" ng-model="request_description" ></textarea>
+								</div>
+								<div class="form-group">
+
+									<div  class="input-group date" data-provide="datepicker" data-date-format="yyyy-mm-dd" >
+										<input  class="form-control" placeholder="Payback Date" type="text"   id="payback"/>
+										<span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="alert alert-danger col-lg-12 col-md-12 col-sm-12 col-xs-12" id="isa_error_member_send_req" style="text-align:left;display:none;">
+										<strong> <i class="fa fa-times-circle"></i></strong><span id="isa_error_message_member_send_req"></span>
+									</div>
+									<div class="alert alert-success col-lg-12 col-md-12 col-sm-12 col-xs-12" id="isa_success_member_send_req" style="text-align:left;display:none;">
+										<span id="isa_success_message_member_send_req"><img src="../images/spinner.gif" width="20" height="20"> Please wait...</span>
+									</div>
+								</div>
+								<div class="form-group">
+									<button type="button" class="btn btn-default btn-primary btn-sm" ng-click="sendRequest()">
+										Send <span id="img_succes_loading" style="visibility: hidden;"><img src="../images/spinner.gif" width="20" height="20"/></span>
+									</button>
+								</div>
+							</form>
+						</div>
+						<div class="col-lg-6">
+							<div style="text-align: center;border:1px solid gray;border-radius:5px" class="text-danger">
+								<span style="font-size: 126px"><i class="fa fa-bell" aria-hidden="true"></i></span>
+								<br>
+								<i><h3><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Your dead-line to pay this month is in 2 days</h3></i>
+							</div>
+						</div>
+						<div class="col-lg-12">
+
+							<div class="col-sm-2">
+								<nav class="nav-sidebar">
+									<ul class="nav tabs">
+										<li class="active">
+											<a href="#approved" data-toggle="tab">Approve</a>
+										</li>
+										<li class="">
+											<a href="#Suspended" data-toggle="tab">Suspended</a>
+										</li>
+										<li class="">
+											<a href="#denied" data-toggle="tab">Denied</a>
+										</li>
+									</ul>
+								</nav>
+							</div>
+							<!-- tab content -->
+							<div class="tab-content" style="padding-bottom: 16px">
+								<div class="tab-pane active text-style" id="approved" style="font-size: 90%">
+									<h2>Approve</h2>
+
+									<table class="table table-hover table-striped" style="width:930px">
+										<thead>
+											<th>ReqNo</th>
+											<th>Sumitted</th>
+											<th>Deadline</th>
+											<th>Amount</th>
+											<th>Interest</th>
+											<th>Amount pay back</th>
+										</thead>
+										<tbody style="font-size:85%">
+											<tr>
+												<td>002</td>
+												<td>10 20th 2018</td>
+												<td>10 20th 2018</td>
+												<td>5000</td>
+												<td>15 % </td>
+												<td>60000</td>
+											</tr>
+
+										</tbody>
+									</table>
+
+								</div>
+								<div class="tab-pane text-style" id="Suspended" style="font-size: 90%">
+									<h2>Suspended</h2>
+									<table class="table table-hover table-striped" style="width:930px">
+										<thead>
+											<th>ReqNo</th>
+											<th>Sumitted</th>
+											<th>Deadline</th>
+											<th>Amount</th>
+											<th>Approve</th>
+										</thead>
+										<tbody style="font-size:85%">
+											<tr>
+												<td>002</td>
+												<td>10 20th 2018</td>
+												<td>10 20th 2018</td>
+												<td>5000</td>
+												<td>
+												<input type="checkbox" />
+												</td>
+											</tr>
+
+										</tbody>
+									</table>
+
+								</div>
+								<div class="tab-pane text-style" id="denied" style="font-size: 90%">
+									<h2>Denied</h2>
+									<table class="table table-hover table-striped" style="width:930px">
+										<thead>
+											<th>ReqNo</th>
+											<th>Sumitted</th>
+											<th>Deadline</th>
+											<th>Amount</th>
+											<th>Reason</th>
+										</thead>
+										<tbody style="font-size:85%">
+											<tr>
+												<td>002</td>
+												<td>10 20th 2018</td>
+												<td>10 20th 2018</td>
+												<td>5000</td>
+												<td>reason here</td>
+											</tr>
+
+										</tbody>
+									</table>
+
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div id="communication" class="tab-pane fade">
+						<div class="row">
+							<div class="col-xs-8 col-sm-8 col-md-8">
+								<div class="box box-primary direct-chat direct-chat-primary">
+									<div class="box-header with-border">
+										<h3 class="box-title">Chat in <b ng-class="(networkstatus==='0' ? 'text-danger' : 'text-success')">{{networkname}}</b></h3>
+									</div>
+									<div class="box-body">
+										<div class="direct-chat-messages" style="height: 300px">
+											<div ng-repeat="chatMessaging in messagesin" class="direct-chat-msg"  ng-class="{'right':chatMessaging.author !=='<?php echo $username; ?>'}">
+												<div class="direct-chat-info clearfix">
+													<span class="direct-chat-name pull-left">{{chatMessaging.names}}</span>
+													<span class="direct-chat-timestamp pull-right">{{chatMessaging.messagedate}}</span>
+												</div>
+												<img class="direct-chat-img user-image" src="../{{chatMessaging.profiles}}" alt="User Image">
+												<div class="direct-chat-text">
+													{{chatMessaging.messages}}
+												</div>
+											</div>
+											<div ng-show="messagesin.length===0">
+												<i><h3>Welcome abroad.</h3></i>
+											</div>
+										</div>
+									</div>
+									<div class="box-footer">
+										<form>
+											<div class="input-group">
+												<input type="text" ng-model="chatMessage" name="message" placeholder="Type Message ..." class="form-control">
+												<span class="input-group-btn">
+													<button id="sendMessage" type="button" ng-click="sendChat(chatMessage,networkcreatorid,'<?php echo $username; ?>',networkaudience)" class="btn btn-primary btn-flat">
+														Send
+													</button> </span>
+											</div>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-4" >
+								<div class="col-md-12">
+									<div class="box box-primary direct-chat direct-chat-primary " style=" overflow-y: auto; height:200px;">
+										<div class="box-header with-border">
+											<a  href=""><b>Networks</b></a>
+											<div class="box-tools pull-right">
+												<span data-toggle="tooltip" title="3 New Messages" class="badge bg-blue-active">{{networkings.length}}</span>
+											</div>
+										</div>
+										<div class="col-md-12  chat-pane-open" style="background: #fff;padding-bottom: 8px" >
+											<br>
+											<div class="form-group" ng-repeat="neti in networkings">
+												<a href="" ng-click="selectNetwork(neti)"><span class="glyphicon glyphicon-link"></span> <b>Network : <span style="text-transform: lowercase;font-size: 90%"> {{neti.networkname}}</span> </b></a>
+												<span class="glyphicon glyphicon-certificate pull-right" ng-class="(neti.status==='0' ? 'text-danger' : 'text-success')"></span>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-12">
+									<div class="box box-primary direct-chat direct-chat-primary " style=" overflow-y: auto; height:350px;">
+										<div class="box-header with-border">
+											<a  href="#"><b>Members in group <span ng-class="(networkstatus==='0' ? 'text-danger' : 'text-success')" style="font-size: 16px;">{{networkname}}</span></b></a>
+											<div class="box-tools pull-right">
+												<span data-toggle="tooltip" title="3 New Messages" class="badge bg-blue-active">{{members_network.length}}</span>
+											</div>
+										</div>
+										<div class="col-md-12  chat-pane-open" style="background: #fff;padding-bottom: 8px" >
+											<br>
+											<div ng-repeat="name_member in members_network">
+												<a href="" ><img class="user-image img-circle" src="../{{name_member.m_profiles}}" width="20" height="20" alt="User Image"><span style="text-transform: lowercase;font-size: 90%;margin-left:16px"><i>{{name_member.m_names}}</i></span> </a>
+											</div>
+											<div ng-show="members_network.length==0">
+												<i><h3>Click a network to see members</h3></i>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="../js/jquery.js"></script>
+		<script src="../js/bootstrap.js"></script>
+		<script src="../js/bootstrap-datepicker.min.js"></script>
+		<script src="../js/angular.min.js"></script>
+		<script src="../js/application.js"></script>
+		<script src="../js/services.js"></script>
+		<script src="../js/dirPagination.js"></script>
+		<script src="../js/jquery.toaster.js"></script>
+		<script src="../js/SimpleAjaxUploader.js"></script>
+		<script type="text/javascript">
+			$(document).on('click', '.dropdown-menu', function(e) {
+				if ($(this).hasClass('keep-open-on-click')) {
+					e.stopPropagation();
+				}
+			});
+		</script>
+	</body>
+</html>

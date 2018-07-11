@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<!-- Copyright (c) 2016, Mbishinzemungu Tuyisenge Stella. All rights reserved. -->
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>SMART-COOPERATIVE|LOGIN</title>
+		<link rel="stylesheet" type="text/css" href="../font-awesome/css/font-awesome.min.css">
+		<link href="../css/bootstrap.min.css" rel="stylesheet">
+		<link href="../css/AdminLTE.css" rel="stylesheet">
+		<link href="../css/asid.css" rel="stylesheet">
+	</head>
+	<body class="bg" ng-app="myAsid" ng-controller="ctr_login">
+		<div class="masthead">
+			<div class="row">
+				<div class="pic">
+					<center>
+						<a href="" ng-click='hideRegistration()'><img src="../images/logo.png" height="80px"></a>
+					</center>
+				</div>
+				<br />
+				<br />
+			</div>
+			<div class="row">
+				<div class="col-lg-4 col-md-12 col-sm-6 col-xs-12 col-lg-offset-4 col-sm-offset-3 ">
+					<ul class="nav nav-tabs" style="margin-left: 70px">
+						<li class="active">
+							<a data-toggle="tab" href="#form_login_worker_tab">Members</a>
+						</li>
+
+						<li>
+							<a data-toggle="tab" href="#form_login_tab">Administrator</a>
+						</li>
+					</ul>
+					<br />
+
+					<div class="tab-content" >
+						
+						<!--==============================tab member login=================================-->
+						
+						<div id="form_login_worker_tab" class="tab-pane fade in active">
+							<form id="form_login_worker" >
+								<div class="form-group">
+									<input type="text" class="form-control" id="W_username" placeholder="email">
+								</div>
+								<div class="form-group">
+									<input type="password" class="form-control" id="W_password"  placeholder="Password">
+								</div>
+								<div class="alert alert-danger col-lg-12 col-md-12 col-sm-12 col-xs-12" id="isa_error_login_worker" style="text-align:left;display:none">
+									<strong> <i class="fa fa-times-circle"></i></strong>&nbsp;<span id="isa_error_message_login_worker"></span>
+								</div>
+								<div class="form-group" >
+									<center>
+										<button class="btn btnlogin" ng-click="loginWorker()">
+											&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LOGIN&nbsp;<span id="img_succes_loading_login_worker" style="visibility: hidden;"> <img src="images/spinner.gif" width="20" height="20"/> </span>
+										</button>
+									</center>
+								</div>
+								<div class="forgot" >
+									<center>
+										<button type="button" style="color:#fff;padding: 6px 8px;cursor: pointer" class="btn btn-primary" ng-click="hideLoginWorker()">Register</button>
+									</center>
+								</div>
+							</form>
+							<div id="register_worker" style="padding:15px;display:none;background-color:#0F75BC;color: #000">
+								<form id="registration_form_worker">
+									<div class="col-md-6">
+										<div class="form-group">
+											<label for="f_name">First Name:</label>
+											<input type="text" class="form-control" id="f_name_worker">
+										</div>
+										<div class="form-group">
+											<label for="l_name">Last Name:</label>
+											<input type="text" class="form-control" id="l_name_worker">
+										</div>
+										<div class="form-group">
+											<label for="email">Email:</label>
+											<input type="text" class="form-control" id="email_worker">
+										</div>
+										<div class="form-group">
+											<label for="phone">Phone Number:</label>
+											<input type="number" maxlength="10" class="form-control" id="phone_worker">
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-group">
+											<label for="id_card_worker">ID Card:</label>
+											<input type="number" class="form-control" id="id_card_worker">
+										</div>
+										<div class="form-group">
+											<label for="username">Username:</label>
+											<input type="text" class="form-control" id="username_worker">
+										</div>
+										<div class="form-group">
+											<label for="password">Password:</label>
+											<input type="password" class="form-control" id="password_worker">
+										</div>
+										<div class="form-group">
+											<p>
+												<label>Gender:</label>
+											</p>
+											<label class="radio-inline">
+												<input type="radio" name="optradio" id="male_worker" value="male" ng-click="toggleSex('male')">
+												Male </label>
+											<label class="radio-inline">
+												<input type="radio" name="optradio" id="female_worker" value="female" ng-click="toggleSex('female')">
+												Female </label>
+										</div>
+									</div>
+									<div class="alert alert-danger col-lg-12 col-md-12 col-sm-12 col-xs-12" id="isa_error_register_worker" style="text-align:left;display:none">
+										<strong> <i class="fa fa-times-circle"></i></strong><span id="isa_error_message_register_worker"></span>
+									</div>
+									<div class="alert alert-success col-lg-12 col-md-12 col-sm-12 col-xs-12" id="isa_success_register_worker" style="text-align:left;display:none">
+										<span id="isa_success_message_register_worker"><img src="../images/spinner.gif" width="20" height="20"> please wait...</span>
+									</div>
+									<div class="form-group " ng-click="register_member()" style="margin-right: 200px;">
+										<button class="btn btn-default" style="margin-top: 40px;background: black;color:#fff">
+											Register
+										</button>
+										<span id="img_succes_loading_worker" style="visibility: hidden;"><img src="images/spinner.gif" width="30" height="30"/></span>
+									</div>
+								</form>
+							</div>
+						</div>
+
+						<!--==============================tab cooperative login============================-->
+						
+						<div id="form_login_tab" class="tab-pane fade">
+							<form id="form_login" >
+								<div class="form-group">
+									<input type="text" class="form-control" id="log_username" placeholder="Username">
+								</div>
+								<div class="form-group">
+									<input type="password" class="form-control" id="log_password"  placeholder="Password">
+								</div>
+								<div class="alert alert-danger col-lg-12 col-md-12 col-sm-12 col-xs-12" id="isa_error_login" style="text-align:left;display:none">
+									<strong> <i class="fa fa-times-circle"></i></strong>&nbsp;<span id="isa_error_message_login"></span>
+								</div>
+								<div class="form-group" ng-click="login()">
+									<center>
+										<button class="btn btnlogin">
+											LOGIN&nbsp;<span id="img_succes_loading" style="visibility: hidden;"> <img src="images/spinner.gif" width="20" height="20"/> </span>
+										</button>
+									</center>
+								</div>
+								<div class="forgot" >
+									<center>
+										<a style="color:#fff;padding: 4px 8px" class="btnlogin" href=""  ng-click="hideLogin()">Register</a>
+									</center>
+								</div>
+							</form>							
+							<div id="register" style="padding:15px;display:none;background-color:#0F75BC;color: #000">
+								<form id="registration_form">
+									<div class="col-md-6">
+										<div class="form-group">
+											<label for="f_name">First Name:</label>
+											<input type="text" class="form-control" id="f_name">
+										</div>
+										<div class="form-group">
+											<label for="l_name">Last Name:</label>
+											<input type="text" class="form-control" id="l_name">
+										</div>
+										<div class="form-group">
+											<label for="id_number">ID number:</label>
+											<input type="text" class="form-control" id="id_number">
+										</div>
+
+										<div class="form-group">
+											<label for="email">Email:</label>
+											<input type="text" class="form-control" id="email">
+										</div>
+										<div class="form-group">
+											<label for="phone">Phone Number:</label>
+											<input type="number" max="10" class="form-control" id="phone">
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-group">
+											<label for="age">Age:</label>
+											<input type="number" class="form-control" id="age">
+										</div>
+										<div class="form-group">
+											<label for="username">Username:</label>
+											<input type="text" class="form-control" id="username">
+										</div>
+										<div class="form-group">
+											<label for="password">Password:</label>
+											<input type="password" class="form-control" id="password">
+										</div>
+										<div class="form-group">
+											<label for="password2">Re-enter:</label>
+											<input type="password" class="form-control" id="password2">
+										</div>
+										<div class="form-group">
+											<p>
+												<label>Gender:</label>
+											</p>
+											<label class="radio-inline">
+												<input type="radio" name="optradio" id="male" value="male" ng-click="toggleSex('male')">
+												Male </label>
+											<label class="radio-inline">
+												<input type="radio" name="optradio" id="female" value="female" ng-click="toggleSex('female')">
+												Female </label>
+										</div>
+									</div>
+									<div class="alert alert-danger col-lg-12 col-md-12 col-sm-12 col-xs-12" id="isa_error_register" style="text-align:left;display:none">
+										<strong> <i class="fa fa-times-circle"></i></strong><span id="isa_error_message_register"></span>
+									</div>
+									<div class="alert alert-success col-lg-12 col-md-12 col-sm-12 col-xs-12" id="isa_success_register" style="text-align:left;display:none">
+										<span id="isa_success_message_register"><img src="../images/spinner.gif" width="20" height="20"> please wait...</span>
+									</div>
+									<div class="form-group " ng-click="register()" style="margin-right: 200px; ">
+										<button  class="btn btn-default" style="margin-top: 40px;background: black;color:#fff">
+											Register
+										</button>
+										<span id="img_succes_loading" style="visibility: hidden;"><img src="images/spinner.gif" width="30" height="30"/></span>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="../js/jquery.js"></script>
+		<script src="../js/bootstrap.js"></script>
+		<script src="../js/angular.min.js"></script>
+		<script src="../js/services.js"></script>
+		<script src="../js/application.js"></script>
+		<script src="../js/dirPagination.js"></script>
+	</body>
+</html>
